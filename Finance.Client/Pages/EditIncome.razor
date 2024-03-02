@@ -1,0 +1,56 @@
+﻿@page "/income"
+@using Finance.Client.Model;
+@inject NavigationManager NavigationManager;
+
+<PageTitle>New Income</PageTitle>
+<h1>Edit income</h1>
+<h3>New Income</h3>
+
+<div class="row">
+	<div class="col-sm-4">
+		<EditForm Model="@income" OnValidSubmit="HandleSubmit">
+			<DataAnnotationsValidator/>
+			<ValidationSummary/>
+			<div class="row mb-4">
+				<label for="amount" class="form-label">Amount:</label>
+				<InputNumber id="amount" @bind-Value="income.Amount" class="form-control"></InputNumber>
+
+				<label for="category" class="form-label">Category:</label>
+				<InputText id="category" @bind-Value="income.Category" class="form-control"></InputText>
+
+				<label for="currency" class="form-label">Currency:</label>
+				<InputSelect id="currency" @bind-Value="income.Currency" class="form-select">
+					<option value="">Выберите влюту</option>
+					<option value="USD">USD</option>
+					<option value="EUR">EUR</option>
+					<option value="RUB">RUB</option>
+				</InputSelect>
+
+				<label for="date" class="form-label">Date:</label>
+				<InputDate id="date" @bind-Value="income.Date" class="form-control"></InputDate>
+			</div>
+			<button type="submit" class="btn btn-primary">Save</button>
+			<button type="button" class="btn btn-secondary" @onclick="HandleCancel">Cancel</button>
+		</EditForm>
+	</div>
+</div>
+
+@code {
+	private Income income = new()
+		{
+			Amount = 0,
+			Category = string.Empty,
+			Currency = string.Empty,
+			Date = new DateOnly(2023,5,5)
+		};
+
+	private void HandleSubmit()
+	{
+		NavigationManager.NavigateTo("/");
+	}
+
+	private void HandleCancel()
+	{
+		NavigationManager.NavigateTo("/");
+	}
+}
