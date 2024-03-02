@@ -1,7 +1,6 @@
 ﻿using GameStore.API.Data;
 using GameStore.API.DTOs.Income;
-using GameStore.API.Entities;
-using Microsoft.AspNetCore.Http;
+using GameStore.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

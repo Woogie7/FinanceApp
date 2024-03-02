@@ -1,7 +1,4 @@
-﻿using GameStore.API.Entities;
-using System.ComponentModel.DataAnnotations;
-
-namespace GameStore.API.DTOs.Income
+﻿namespace GameStore.API.DTOs.Income
 {
 	public record class IncomeDTO(
 		decimal Amount,

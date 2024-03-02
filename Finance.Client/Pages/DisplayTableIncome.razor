@@ -1,0 +1,23 @@
+﻿@inherits DisplayTableIncomeBase
+
+<table class="table table-striped table-bordered table-hover">
+	<thead class="table-dark">
+	<th>Amount</th>
+	<th>Currnecy</th>
+	<th>Category</th>
+	<th>Date</th>
+	<th></th>
+	</thead>
+	<tbody>
+		@foreach (var income in Incomes)
+		{
+			<tr>
+				<td>@income.Amount</td>
+				<td>@income.Currency.CurrencyName</td>
+				<td>@income.Category.CategoryIncomeName</td>
+				<td>@income.Date</td>
+				<td></td>
+			</tr>
+		}
+	</tbody>
+</table>

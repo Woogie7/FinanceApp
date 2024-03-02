@@ -4,27 +4,28 @@ using System.Net.Http.Json;
 
 namespace Finance.Client.Services
 {
-	public class IncomeService : IIncomeService
+	public class CurrencyService : ICurrencyService
 	{
+
 		private readonly HttpClient _httpClient;
 
-		public IncomeService(HttpClient httpClient)
+		public CurrencyService(HttpClient httpClient)
 		{
 			_httpClient = httpClient;
 		}
-		public async Task<IEnumerable<Income>?> GetIncomesAsync()
+		public async Task<IEnumerable<Currency>?> GetCurrenciesAsync()
 		{
 			try
 			{
-				var incomes = await _httpClient.GetFromJsonAsync<IEnumerable<Income>>("api/Income");
-				return incomes;
+				var currencies = await _httpClient.GetFromJsonAsync<IEnumerable<Currency>>("api/Currency");
+				return currencies;
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine("Error" + ex.Message);
 				throw ex;
 			}
-			
+
 		}
 	}
 }

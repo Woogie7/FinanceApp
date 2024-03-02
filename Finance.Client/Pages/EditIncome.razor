@@ -1,5 +1,5 @@
-﻿@page "/income"
-@using Finance.Client.Model;
+﻿@* @page "/EditIncome"
+@using GameStore.Domain.Entities;
 @inject NavigationManager NavigationManager;
 
 <PageTitle>New Income</PageTitle>
@@ -36,21 +36,6 @@
 </div>
 
 @code {
-	private Income income = new()
-		{
-			Amount = 0,
-			Category = string.Empty,
-			Currency = string.Empty,
-			Date = new DateOnly(2023,5,5)
-		};
-
-	private void HandleSubmit()
-	{
-		NavigationManager.NavigateTo("/");
-	}
-
-	private void HandleCancel()
-	{
-		NavigationManager.NavigateTo("/");
-	}
-}
+	
+} 
+ *@

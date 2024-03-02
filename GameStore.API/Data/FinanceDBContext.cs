@@ -1,6 +1,5 @@
-﻿using GameStore.API.Entities;
+﻿using GameStore.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace GameStore.API.Data
 {

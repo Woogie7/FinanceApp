@@ -1,0 +1,35 @@
+﻿@page "/"
+@inherits IncomeBase
+
+<PageTitle>Income</PageTitle>
+
+<h1>Income</h1>
+
+<div class="row mb-4">
+	<div class="col-sm-2">
+		<button type="button" class="btn btn-primary" @onclick="HandleSumbit">
+			Новый доход
+		</button>
+	</div>
+	<div class="col-sm-2">
+		<select class="form-select" @onchange="ChangeCurrency">
+			<option value="">Выберите валюту</option>
+			@foreach (var currency in Currencies)
+			{
+				<option value="@currency.Id">@currency.CurrencyName</option>
+			}
+		</select>
+	</div>
+</div>
+
+
+@if(Incomes == null)
+{
+	<h2>Загрузка доходов</h2>
+}
+else
+{
+	<DisplayTableIncome Incomes="@FilteredIncomes()"></DisplayTableIncome>
+}
+
+
