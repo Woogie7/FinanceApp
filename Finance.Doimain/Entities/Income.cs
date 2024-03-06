@@ -1,6 +1,6 @@
-﻿using GameStore.Domain.Entities.Base;
+﻿using Finance.Domain.Entities.Base;
 
-namespace GameStore.Domain.Entities;
+namespace Finance.Domain.Entities;
 
 public class Income : Entity
 {

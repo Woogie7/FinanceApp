@@ -1,4 +1,4 @@
-﻿using GameStore.Domain.Entities;
+﻿using Finance.Domain.Entities;
 
 namespace Finance.Client.Services.Interface
 {

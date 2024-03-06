@@ -1,4 +1,4 @@
-using GameStore.API.Data;
+using Finance.API.Data;
 using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);

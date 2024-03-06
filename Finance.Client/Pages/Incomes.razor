@@ -47,17 +47,19 @@ else
 	<th>Общая сумма</th>
 	</thead>
 	<tbody>
-		@{
-			Dictionary<string, decimal> categoryAmounts = Incomes
-			.GroupBy(i => i.Category.CategoryIncomeName)
-			.ToDictionary(g => g.Key, g => g.Sum(i => i.Amount));
-		}
-		@foreach (var categoryIncome in categoryAmounts)
+		@if (CategoryIncome == null)
 		{
-			<tr>
-				<td>@categoryIncome.Key</td>
-				<td>@categoryIncome.Value</td>
-			</tr>
+			<h2>asd</h2>
+		}
+		else
+		{
+			@foreach (var categoryIncome in CategoryIncome)
+			{
+				<tr>
+					<td>@categoryIncome.CategoryName</td>
+					<td>@categoryIncome.TotalAmount</td>
+				</tr>
+			}
 		}
 	</tbody>
 </table>

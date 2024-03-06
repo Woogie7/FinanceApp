@@ -1,4 +1,4 @@
-﻿namespace GameStore.Domain.Entities.Base
+﻿namespace Finance.Domain.Entities.Base
 {
 	public class Entity
 	{

@@ -1,5 +1,5 @@
 ﻿using Finance.Client.Services.Interface;
-using GameStore.Domain.Entities;
+using Finance.Domain.Entities;
 using Microsoft.AspNetCore.Components;
 using System.ComponentModel;
 

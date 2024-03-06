@@ -1,5 +1,6 @@
 ﻿using Finance.Client.Services.Interface;
-using GameStore.Domain.Entities;
+using Finance.Domain.Entities;
+using Finance.Domain.Model;
 using System.Net.Http.Json;
 
 namespace Finance.Client.Services
@@ -25,6 +26,19 @@ namespace Finance.Client.Services
 				throw ex;
 			}
 			
+		}
+
+		public async Task<IEnumerable<CategorySummary>?> GetCat()
+		{
+			try
+			{
+				var cat = await _httpClient.GetFromJsonAsync<IEnumerable<CategorySummary>>("api/Income/cat");
+				return cat;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Error" + ex.Message); throw ex;
+			}
 		}
 	}
 }

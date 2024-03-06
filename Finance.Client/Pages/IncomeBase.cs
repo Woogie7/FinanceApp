@@ -1,5 +1,6 @@
-﻿using Finance.Client.Services.Interface;
-using GameStore.Domain.Entities;
+﻿using Finance.Domain.Model;
+using Finance.Client.Services.Interface;
+using Finance.Domain.Entities;
 using Microsoft.AspNetCore.Components;
 
 namespace Finance.Client.Pages;
@@ -17,13 +18,13 @@ public class IncomeBase : ComponentBase
 	public NavigationManager NavigationManager {  get; set; }
 	public IEnumerable<Income> Incomes { get; set; }
 	public IEnumerable<Currency> Currencies { get; set; }
-	public IEnumerable<CategoryIncome> CategoryIncome { get; set; }
+	public IEnumerable<CategorySummary> CategoryIncome { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
 		Incomes = await IncomeService.GetIncomesAsync();
 		Currencies = await CurrencyService.GetCurrenciesAsync();
-		CategoryIncome = await CategoryIncomeService.GetCategoryIncomeAsync();
+		CategoryIncome = await IncomeService.GetCat();
 
 	}
 
@@ -51,7 +52,7 @@ public class IncomeBase : ComponentBase
 		}
 	}
 
-	public IEnumerable<CategoryIncome> ShowCategory()
+	public IEnumerable<CategorySummary> ShowCategory()
 	{
 		return null;
 	}

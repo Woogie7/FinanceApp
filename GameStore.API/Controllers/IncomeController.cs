@@ -1,10 +1,11 @@
-﻿using GameStore.API.Data;
-using GameStore.API.DTOs.Income;
-using GameStore.Domain.Entities;
+﻿using Finance.Domain.Model;
+using Finance.API.Data;
+using Finance.API.DTOs.Income;
+using Finance.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace GameStore.API.Controllers
+namespace Finance.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
@@ -27,6 +28,19 @@ namespace GameStore.API.Controllers
 				.ToListAsync();
 
 			return Ok(incomes);
+		}
+		[HttpGet]
+		[Route("Cat")]
+		public async Task<IActionResult> GetCategorySum()
+		{
+			var categoryAmounts = _financeDBContext.Incomes
+			.GroupBy(i => i.Category.CategoryIncomeName)
+			.Select(g=> new CategorySummary {
+				CategoryName = g.Key,
+				TotalAmount = g.Sum(a=> a.Amount)
+			});
+
+			return Ok(categoryAmounts);
 		}
 
 		[HttpGet("{id}")]

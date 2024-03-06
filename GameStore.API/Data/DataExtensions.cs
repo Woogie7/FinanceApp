@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 
-namespace GameStore.API.Data
+namespace Finance.API.Data
 {
 	public static class DataExtensions
 	{

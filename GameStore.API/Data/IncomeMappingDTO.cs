@@ -1,5 +1,5 @@
-﻿using GameStore.API.DTOs.Income;
-using GameStore.Domain.Entities;
+﻿using Finance.API.DTOs.Income;
+using Finance.Domain.Entities;
 
 namespace Finance.API.Data
 {

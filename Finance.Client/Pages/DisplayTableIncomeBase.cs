@@ -1,4 +1,4 @@
-﻿using GameStore.Domain.Entities;
+﻿using Finance.Domain.Entities;
 using Microsoft.AspNetCore.Components;
 
 namespace Finance.Client.Pages

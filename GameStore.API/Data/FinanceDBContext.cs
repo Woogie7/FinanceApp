@@ -1,7 +1,7 @@
-﻿using GameStore.Domain.Entities;
+﻿using Finance.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace GameStore.API.Data
+namespace Finance.API.Data
 {
 	public class FinanceDBContext(DbContextOptions<FinanceDBContext> dbContextOptions) : DbContext(dbContextOptions)
 	{

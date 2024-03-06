@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GameStore.API.DTOs.Income
+namespace Finance.API.DTOs.Income
 {
 	public record class CreateIncomeDTO(
 		[Range(1, 1000000)] decimal Amount,

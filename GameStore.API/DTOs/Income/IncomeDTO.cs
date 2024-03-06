@@ -1,4 +1,4 @@
-﻿namespace GameStore.API.DTOs.Income
+﻿namespace Finance.API.DTOs.Income
 {
 	public record class IncomeDTO(
 		decimal Amount,

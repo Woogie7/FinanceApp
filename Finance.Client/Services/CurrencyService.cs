@@ -1,5 +1,5 @@
 ﻿using Finance.Client.Services.Interface;
-using GameStore.Domain.Entities;
+using Finance.Domain.Entities;
 using System.Net.Http.Json;
 
 namespace Finance.Client.Services
