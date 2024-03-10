@@ -11,14 +11,18 @@ public class IncomeBase : ComponentBase
 	public IIncomeService IncomeService {  get; set; }
 	[Inject]
 	public ICurrencyService CurrencyService {  get; set; }
-	
 	[Inject]
 	public ICategoryIncomeService CategoryIncomeService {  get; set; }
 	[Inject]
 	public NavigationManager NavigationManager {  get; set; }
+
+
 	public IEnumerable<Income> Incomes { get; set; }
 	public IEnumerable<Currency> Currencies { get; set; }
 	public IEnumerable<CategorySummary> CategoryIncome { get; set; }
+
+
+	private int selectedCurrencyId;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -32,8 +36,7 @@ public class IncomeBase : ComponentBase
 	{
 		NavigationManager.NavigateTo("/EditIncome");
 	}
-	private int selectedCurrencyId;
-
+	
 	public void ChangeCurrency(ChangeEventArgs e)
 	{
 		selectedCurrencyId = Convert.ToInt32(e.Value);

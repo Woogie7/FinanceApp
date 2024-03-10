@@ -1,6 +1,5 @@
-﻿@* @page "/EditIncome"
-@using GameStore.Domain.Entities;
-@inject NavigationManager NavigationManager;
+﻿@page "/EditIncome"
+@inherits EditIncomeBase
 
 <PageTitle>New Income</PageTitle>
 <h1>Edit income</h1>
@@ -8,34 +7,34 @@
 
 <div class="row">
 	<div class="col-sm-4">
-		<EditForm Model="@income" OnValidSubmit="HandleSubmit">
-			<DataAnnotationsValidator/>
-			<ValidationSummary/>
+		<EditForm Model="@newIncome" OnSubmit="HandleSubmit">
 			<div class="row mb-4">
 				<label for="amount" class="form-label">Amount:</label>
-				<InputNumber id="amount" @bind-Value="income.Amount" class="form-control"></InputNumber>
+				<InputNumber id="amount" @bind-Value="newIncome.Amount" class="form-control"></InputNumber>
 
 				<label for="category" class="form-label">Category:</label>
-				<InputText id="category" @bind-Value="income.Category" class="form-control"></InputText>
+				<InputSelect @bind-Value="newIncome.Category" class="form-select">
+					<option value="">Выберите влюту</option>
+					@foreach (var category in CategoryIncome)
+					{
+						<option value="@category.Id">@category.CategoryIncomeName</option>
+					}
+				</InputSelect>
 
 				<label for="currency" class="form-label">Currency:</label>
-				<InputSelect id="currency" @bind-Value="income.Currency" class="form-select">
+				<InputSelect @bind-Value="newIncome.Currency" class="form-select">
 					<option value="">Выберите влюту</option>
-					<option value="USD">USD</option>
-					<option value="EUR">EUR</option>
-					<option value="RUB">RUB</option>
+					@foreach (var currency in Currencies)
+					{
+						<option value="@currency.Id">@currency.CurrencyName</option>
+					}
 				</InputSelect>
 
 				<label for="date" class="form-label">Date:</label>
-				<InputDate id="date" @bind-Value="income.Date" class="form-control"></InputDate>
+				<InputDate id="date" @bind-Value="newIncome.Date" class="form-control"></InputDate>
 			</div>
 			<button type="submit" class="btn btn-primary">Save</button>
 			<button type="button" class="btn btn-secondary" @onclick="HandleCancel">Cancel</button>
 		</EditForm>
 	</div>
-</div>
-
-@code {
-	
-} 
- *@
+</div> 

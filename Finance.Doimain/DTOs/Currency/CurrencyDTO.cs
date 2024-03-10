@@ -1,4 +1,4 @@
-﻿namespace Finance.API.DTOs.Currency
+﻿namespace Finance.Domain.DTOs.Currency
 {
 	public record class CurrencyDTO(
 		int Id,

@@ -1,6 +1,6 @@
 ﻿using Finance.Domain.Model;
 using Finance.API.Data;
-using Finance.API.DTOs.Income;
+using Finance.Domain.DTOs.Income;
 using Finance.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +26,8 @@ namespace Finance.API.Controllers
 				.Include(i => i.Currency)
 				.AsNoTracking()
 				.ToListAsync();
+
+			incomes.Select(i => new IncomeDTO(i.Amount, i.Date, i.Category.CategoryIncomeName, i.Currency.CurrencyName);
 
 			return Ok(incomes);
 		}
@@ -63,31 +65,32 @@ namespace Finance.API.Controllers
 
 			return Ok(incomeDTO);
 		}
-		[HttpPost]
-		public async Task<IActionResult> Post([FromBody] CreateIncomeDTO newIncome)
-		{
-			Income income = new()
-			{
-				Amount = newIncome.Amount,
-				Date = newIncome.Date,
-				Category = _financeDBContext.CategoryIncomes.Find(newIncome.CategoryIncomeId),
-				CategoryIncomeId = newIncome.CategoryIncomeId,
-				Currency = _financeDBContext.Currencies.Find(newIncome.CurrencyId),
-				CurrencyId = newIncome.CurrencyId
-			};
 
-			await _financeDBContext.Incomes.AddAsync(income);
+		[HttpPost]
+		public async Task<IActionResult> Post(Income newIncome)
+		{
+			//Income income = new()
+			//{
+			//	Amount = newIncome.Amount,
+			//	Date = newIncome.Date,
+			//	Category = _financeDBContext.CategoryIncomes.Find(newIncome.CategoryIncomeId),
+			//	CategoryIncomeId = newIncome.CategoryIncomeId,
+			//	Currency = _financeDBContext.Currencies.Find(newIncome.CurrencyId),
+			//	CurrencyId = newIncome.CurrencyId
+			//};
+
+			await _financeDBContext.Incomes.AddAsync(newIncome);
 			await _financeDBContext.SaveChangesAsync();
 
-			IncomeDTO incomeDTO = new
-			(
-				income.Amount,
-				income.Date,
-				income.Category!.CategoryIncomeName,
-				income.Currency!.CurrencyName
-			);
+			//IncomeDTO incomeDTO = new
+			//(
+			//	income.Amount,
+			//	income.Date,
+			//	income.Category!.CategoryIncomeName,
+			//	income.Currency!.CurrencyName
+			//);
 
-			return Ok(incomeDTO);
+			return Ok(newIncome);
 		}
 
 		[HttpPut("{id}")]

@@ -1,4 +1,4 @@
-﻿using Finance.API.DTOs.Income;
+﻿using Finance.Domain.DTOs.Income;
 using Finance.Domain.Entities;
 
 namespace Finance.API.Data

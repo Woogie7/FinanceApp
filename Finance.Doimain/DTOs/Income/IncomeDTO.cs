@@ -1,4 +1,4 @@
-﻿namespace Finance.API.DTOs.Income
+﻿namespace Finance.Domain.DTOs.Income
 {
 	public record class IncomeDTO(
 		decimal Amount,
