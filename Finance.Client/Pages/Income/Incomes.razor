@@ -11,6 +11,12 @@
 			Новый доход
 		</button>
 	</div>
+	<div class="col-sm-2">
+		<textarea @bind="Description" @bind:event="oninput"/>
+	</div>
+	<div class="col-sm-2">
+		Count: @Description.Length
+	</div>
 	@if(Currencies == null)
 	{
 		<h2>Нет валют</h2>

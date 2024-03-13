@@ -27,9 +27,9 @@ namespace Finance.API.Controllers
 				.AsNoTracking()
 				.ToListAsync();
 
-			incomes.Select(i => new IncomeDTO(i.Amount, i.Date, i.Category.CategoryIncomeName, i.Currency.CurrencyName);
+			
 
-			return Ok(incomes);
+			return Ok(incomes.Select(i => new IncomeDTO(i.Amount, i.Date, i.Category.CategoryIncomeName,i.CategoryIncomeId, i.Currency.CurrencyName, i.CurrencyId)));
 		}
 		[HttpGet]
 		[Route("Cat")]
@@ -109,15 +109,7 @@ namespace Finance.API.Controllers
 
 				await _financeDBContext.SaveChangesAsync();
 
-				IncomeDTO incomeDTO = new
-				(
-					income.Amount,
-					income.Date,
-					income.Category!.CategoryIncomeName,
-					income.Currency!.CurrencyName
-				);
-
-				return Ok(incomeDTO);
+				return Ok(income);
 			}
 
 			return NotFound();

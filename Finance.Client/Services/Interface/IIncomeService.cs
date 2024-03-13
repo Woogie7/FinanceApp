@@ -7,8 +7,8 @@ namespace Finance.Client.Services.Interface
 {
 	public interface IIncomeService
 	{
-		Task<IEnumerable<Income>> GetIncomesAsync();
+		Task<IEnumerable<IncomeDTO>> GetIncomesAsync();
 		Task<IEnumerable<CategorySummary>> GetCat();
-		Task<Income> AddIncomeAsync(Income newIncome);
+		Task<Income> AddIncomeAsync(CreateIncomeDTO newIncome);
 	}
 }

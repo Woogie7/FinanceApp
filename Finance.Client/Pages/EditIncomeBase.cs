@@ -1,8 +1,10 @@
 ﻿using Finance.Client.Services.Interface;
+using Finance.Domain.DTOs.Income;
 using Finance.Domain.Entities;
 using Finance.Domain.Model;
 using Microsoft.AspNetCore.Components;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Finance.Client.Pages
 {
@@ -23,7 +25,7 @@ namespace Finance.Client.Pages
 			[Inject]
 		public NavigationManager NavigationManager { get; set; }
 
-		public Income newIncome = new Income();
+		public CreateIncomeDTO newIncome = new CreateIncomeDTO(0, new DateOnly(2023, 02, 02), 0, 0);
 
 		public int selectedCurrencyId;
 		public int selectedCategoryId;

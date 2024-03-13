@@ -4,6 +4,8 @@
 		decimal Amount,
 		DateOnly Date,
 		string CategoryIncome,
-		string Currency
+		int CategoryIncomeId,
+		string Currency,
+		int CurrencyId
 		);
 }

@@ -1,4 +1,4 @@
-﻿using Finance.Domain.Entities;
+﻿using Finance.Domain.DTOs.Income;
 using Microsoft.AspNetCore.Components;
 
 namespace Finance.Client.Pages
@@ -6,6 +6,6 @@ namespace Finance.Client.Pages
 	public class DisplayTableIncomeBase : ComponentBase
 	{
 		[Parameter]
-		public IEnumerable<Income> Incomes { get; set; }
+		public IEnumerable<IncomeDTO> Incomes { get; set; }
 	}
 }
