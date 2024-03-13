@@ -13,26 +13,21 @@ public class IncomeBase : ComponentBase
     [Inject]
     public ICurrencyService CurrencyService { get; set; }
     [Inject]
-    public ICategoryIncomeService CategoryIncomeService { get; set; }
-    [Inject]
     public NavigationManager NavigationManager { get; set; }
 
 
     public IEnumerable<IncomeDTO> Incomes { get; set; }
     public IEnumerable<Currency> Currencies { get; set; }
-    public IEnumerable<CategorySummary> CategoryIncome { get; set; }
-
 
     private int selectedCurrencyId;
 
     public string Description { get; set; } = string.Empty;
+	public bool ShowCategory { get; set; }
 
-    protected override async Task OnInitializedAsync()
+	protected override async Task OnInitializedAsync()
     {
         Incomes = await IncomeService.GetIncomesAsync();
         Currencies = await CurrencyService.GetCurrenciesAsync();
-        CategoryIncome = await IncomeService.GetCat();
-
     }
 
     public void HandleSumbit()
@@ -56,10 +51,5 @@ public class IncomeBase : ComponentBase
         {
             return Incomes.Where(i => i.CurrencyId == selectedCurrencyId);
         }
-    }
-
-    public IEnumerable<CategorySummary> ShowCategory()
-    {
-        return null;
     }
 }

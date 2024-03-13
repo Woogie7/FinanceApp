@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finance.API", "GameStore.AP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finance.Client", "Finance.Client\Finance.Client.csproj", "{EC30CE98-9B78-4954-B65B-782A84D6E06E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finance.Doimain", "Finance.Doimain\Finance.Doimain.csproj", "{C5871EC6-E18C-427C-B6EF-7FC35B6D746F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finance.Doimain", "Finance.Doimain\Finance.Doimain.csproj", "{C5871EC6-E18C-427C-B6EF-7FC35B6D746F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

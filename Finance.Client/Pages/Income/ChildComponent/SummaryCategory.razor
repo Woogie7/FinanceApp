@@ -1,0 +1,29 @@
+﻿@inherits SummaryCategoryBase
+
+@if (ShowCategory)
+{
+	<table class="table table-striped table-bordered table-hover">
+		<thead class="table-dark">
+		<th>Категория</th>
+		<th>Общая сумма</th>
+		</thead>
+		<tbody>
+			@if (CategoryIncome == null)
+			{
+				<h2>asd</h2>
+			}
+			else
+			{
+				@foreach (var categoryIncome in CategoryIncome)
+				{
+					<tr>
+						<td>@categoryIncome.CategoryName</td>
+						<td>@categoryIncome.TotalAmount</td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+
+
+}

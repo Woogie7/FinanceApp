@@ -1,14 +1,35 @@
 ﻿@page "/EditIncome"
 @inherits EditIncomeBase
 
-<PageTitle>New Income</PageTitle>
-<h1>Edit income</h1>
-<h3>New Income</h3>
+<PageTitle>Новый доход</PageTitle>
+<h1>Добавление нового дохода</h1>
 
-<div class="row">
-	<div class="col-sm-4">
-		<form method="post">
-			
-		</form>
-	</div>
-</div> 
+<EditForm Model="@Income">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+	<label for="amount">Сумма</label>
+	<InputNumber id="amount" @bind-Value="Income.Amount" class="form-control"></InputNumber>
+
+	<label for="currency" class="form-label">Курс:</label>
+	<InputSelect id="currency" @bind-Value="Income.Currency" class="form-select">
+		<option value="">Выберите влюту</option>
+		@foreach (var cur in Currencies)
+		{
+			<option value="@cur.Id">@cur.CurrencyName</option>
+		}
+	</InputSelect>
+
+	<label for="category" class="form-label">Категория:</label>
+	<InputSelect id="category" @bind-Value="Income.Category" class="form-select">
+		<option value="">Выберите категорию</option>
+		@foreach (var cat in CategoryIncomes)
+		{
+			<option value="@cat.Id">@cat.CategoryIncomeName</option>
+		}
+	</InputSelect>
+
+	<label for="date" class="form-label">Дата:</label>
+	<InputDate @bind-Value="Income.Date"></InputDate>
+</EditForm>
+
+
