@@ -4,6 +4,8 @@ using Finance.Domain.DTOs.Income;
 using Finance.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Finance.Persistence.Context;
+using Finacne.Application.Repositories;
 
 namespace Finance.API.Controllers
 {
@@ -12,6 +14,7 @@ namespace Finance.API.Controllers
 	public class IncomeController : ControllerBase
 	{
 		private readonly FinanceDBContext _financeDBContext;
+		private readonly IGenericRepository<Income> _incomeRepository;
 
 		public IncomeController(FinanceDBContext financeDBContext)
 		{
@@ -21,12 +24,7 @@ namespace Finance.API.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Get()
 		{
-			var incomes = await _financeDBContext.Incomes
-				.Include(i => i.Category)
-				.Include(i => i.Currency)
-				.AsNoTracking()
-				.ToListAsync();
-
+			var incomes = await _incomeRepository.GetAllAsync();
 			
 
 			return Ok(incomes.Select(i => new IncomeDTO(i.Amount, i.Date, i.Category.CategoryIncomeName,i.CategoryIncomeId, i.Currency.CurrencyName, i.CurrencyId)));

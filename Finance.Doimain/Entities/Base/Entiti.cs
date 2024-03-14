@@ -1,6 +1,8 @@
-﻿namespace Finance.Domain.Entities.Base
+﻿using Finance.Domain.Entities.Base;
+
+namespace Finance.Domain.Entities.Base
 {
-	public class Entity
+	public class Entity : IEntity
 	{
 		public int Id { get; set; }
 	}
