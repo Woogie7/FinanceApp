@@ -2,7 +2,7 @@
 using Finance.Domain.Model;
 using Microsoft.AspNetCore.Components;
 
-namespace Finance.Client.Pages.Income.ChildComponent;
+namespace Finance.Client.Pages.PageIncome.ChildComponent;
 
 public class SummaryCategoryBase : ComponentBase
 {
@@ -17,6 +17,6 @@ public class SummaryCategoryBase : ComponentBase
 
 	protected override async Task OnInitializedAsync()
 	{
-		CategoryIncome = await CategoryIncomeService.GetCat();
+		//CategoryIncome = await CategoryIncomeService.GetCat();
 	}
 }

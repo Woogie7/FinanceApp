@@ -1,10 +1,7 @@
 ﻿using Finance.Client.Services.Interface;
-using Finance.Domain.DTOs.Income;
 using Finance.Domain.Entities;
 using Finance.Domain.Model;
 using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
 
 namespace Finance.Client.Services
 {
@@ -16,11 +13,11 @@ namespace Finance.Client.Services
 		{
 			_httpClient = httpClient;
 		}
-		public async Task<IEnumerable<IncomeDTO>?> GetIncomesAsync()
+		public async Task<IEnumerable<Income>?> GetIncomesAsync()
 		{
 			try
 			{
-				var incomes = await _httpClient.GetFromJsonAsync<IEnumerable<IncomeDTO>>("api/Income");
+				var incomes = await _httpClient.GetFromJsonAsync<IEnumerable<Income>>("api/Income");
 				return incomes;
 			}
 			catch (Exception ex)
@@ -31,32 +28,32 @@ namespace Finance.Client.Services
 			
 		}
 
-		public async Task<Income> AddIncomeAsync(CreateIncomeDTO newIncome)
-		{
-			try
-			{
-				var itemJson = new StringContent(JsonSerializer.Serialize(newIncome), Encoding.UTF8, "application/json");
-				var response = await _httpClient.PostAsync($"api/Income/", itemJson);
+		//public async Task<Income> AddIncomeAsync(CreateIncomeDTO newIncome)
+		//{
+		//	try
+		//	{
+		//		var itemJson = new StringContent(JsonSerializer.Serialize(newIncome), Encoding.UTF8, "application/json");
+		//		var response = await _httpClient.PostAsync($"api/Income/", itemJson);
 
-				if(response.IsSuccessStatusCode)
-				{
-					var responseBody = await response.Content.ReadAsStreamAsync();
+		//		if(response.IsSuccessStatusCode)
+		//		{
+		//			var responseBody = await response.Content.ReadAsStreamAsync();
 
-					var addIncome = await JsonSerializer.DeserializeAsync<Income>(responseBody, new JsonSerializerOptions
-					{
-						PropertyNameCaseInsensitive = true
-					});
+		//			var addIncome = await JsonSerializer.DeserializeAsync<Income>(responseBody, new JsonSerializerOptions
+		//			{
+		//				PropertyNameCaseInsensitive = true
+		//			});
 
-					return addIncome;
-				}
-				return null;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine("Error" + ex.Message);
-				throw ex;
-			}
-		}
+		//			return addIncome;
+		//		}
+		//		return null;
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		Console.WriteLine("Error" + ex.Message);
+		//		throw ex;
+		//	}
+		//}
 
 		public async Task<IEnumerable<CategorySummary>?> GetCat()
 		{

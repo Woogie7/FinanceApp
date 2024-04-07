@@ -1,10 +1,8 @@
-﻿using Finance.Domain.Model;
-using Finance.Client.Services.Interface;
-using Finance.Domain.Entities;
+﻿using Finance.Client.Services.Interface;
 using Microsoft.AspNetCore.Components;
-using Finance.Domain.DTOs.Income;
+using Finance.Domain.Entities;
 
-namespace Finance.Client.Pages.Income;
+namespace Finance.Client.Pages.PageIncome;
 
 public class IncomeBase : ComponentBase
 {
@@ -16,7 +14,7 @@ public class IncomeBase : ComponentBase
     public NavigationManager NavigationManager { get; set; }
 
 
-    public IEnumerable<IncomeDTO> Incomes { get; set; }
+    public IEnumerable<Income> Incomes { get; set; }
     public IEnumerable<Currency> Currencies { get; set; }
 
     private int selectedCurrencyId;
@@ -41,7 +39,7 @@ public class IncomeBase : ComponentBase
         StateHasChanged();
     }
 
-    public IEnumerable<IncomeDTO> FilteredIncomes()
+	public IEnumerable<Income> FilteredIncomes()
     {
         if (selectedCurrencyId == 0)
         {

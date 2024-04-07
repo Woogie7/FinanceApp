@@ -1,4 +1,5 @@
-﻿using Finance.Persistence.Context;
+﻿using Finance.API.Midleware;
+using Finance.Persistence.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,11 @@ namespace Finance.API.Data
 			using var scope = app.Services.CreateScope();
 			var DbContext = scope.ServiceProvider.GetRequiredService<FinanceDBContext>();
 			await DbContext.Database.MigrateAsync();
+		}
+
+		public static IApplicationBuilder UseExceptionHandlers(this IApplicationBuilder app)
+		{
+			return app.UseMiddleware<ClobalExceptionHandlerMidleware>();
 		}
 	}
 }

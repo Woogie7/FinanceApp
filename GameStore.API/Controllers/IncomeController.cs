@@ -1,124 +1,124 @@
 ﻿using Finance.Domain.Model;
 using Finance.API.Data;
-using Finance.Domain.DTOs.Income;
 using Finance.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Finance.Persistence.Context;
-using Finacne.Application.Repositories;
+using Finance.Application.Interface.Repositories;
+using MediatR;
+using Finance.Application.Features.Queries;
 
 namespace Finance.API.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
 	public class IncomeController : ControllerBase
 	{
-		private readonly FinanceDBContext _financeDBContext;
-		private readonly IGenericRepository<Income> _incomeRepository;
+		public readonly IMediator _mediator;
 
-		public IncomeController(FinanceDBContext financeDBContext)
+		public IncomeController(IMediator mediator)
 		{
-			_financeDBContext = financeDBContext;
+			_mediator = mediator;
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> Get()
 		{
-			var incomes = await _incomeRepository.GetAllAsync();
-			
+			throw new Exception("Неизвестаная ошибка");
 
-			return Ok(incomes.Select(i => new IncomeDTO(i.Amount, i.Date, i.Category.CategoryIncomeName,i.CategoryIncomeId, i.Currency.CurrencyName, i.CurrencyId)));
-		}
-		[HttpGet]
-		[Route("Cat")]
-		public async Task<IActionResult> GetCategorySum()
-		{
-			var categoryAmounts = _financeDBContext.Incomes
-			.GroupBy(i => i.Category.CategoryIncomeName)
-			.Select(g=> new CategorySummary {
-				CategoryName = g.Key,
-				TotalAmount = g.Sum(a=> a.Amount)
-			});
-
-			return Ok(categoryAmounts);
+			//return Ok(await _mediator.Send(new GetAllIncomeQuery()));
 		}
 
-		[HttpGet("{id}")]
-		public async Task<IActionResult> Get(int id)
-		{
-			var income = await _financeDBContext.Incomes.FindAsync(id);
+		//[HttpGet]
+		//[Route("Cat")]
+		//public async Task<IActionResult> GetCategorySum()
+		//{
+		//	var categoryAmounts = _financeDBContext.Incomes
+		//	.GroupBy(i => i.Category.CategoryIncomeName)
+		//	.Select(g=> new CategorySummary {
+		//		CategoryName = g.Key,
+		//		TotalAmount = g.Sum(a=> a.Amount)
+		//	});
 
-			if(income == null)
-			{
-				return NotFound();
-			}
+		//	return Ok(categoryAmounts);
+		//}
 
-			IncomeDetailsDTO incomeDTO = new
-			(
-				income.Amount,
-				income.Date,
-				income.CategoryIncomeId,
-				income.CurrencyId
-			);
+		//[HttpGet("{id}")]
+		//public async Task<IActionResult> Get(int id)
+		//{
+		//	var income = await _financeDBContext.Incomes.FindAsync(id);
 
-			return Ok(incomeDTO);
-		}
+		//	if(income == null)
+		//	{
+		//		return NotFound();
+		//	}
 
-		[HttpPost]
-		public async Task<IActionResult> Post(Income newIncome)
-		{
-			//Income income = new()
-			//{
-			//	Amount = newIncome.Amount,
-			//	Date = newIncome.Date,
-			//	Category = _financeDBContext.CategoryIncomes.Find(newIncome.CategoryIncomeId),
-			//	CategoryIncomeId = newIncome.CategoryIncomeId,
-			//	Currency = _financeDBContext.Currencies.Find(newIncome.CurrencyId),
-			//	CurrencyId = newIncome.CurrencyId
-			//};
+		//	IncomeDetailsDTO incomeDTO = new
+		//	(
+		//		income.Amount,
+		//		income.Date,
+		//		income.CategoryIncomeId,
+		//		income.CurrencyId
+		//	);
 
-			await _financeDBContext.Incomes.AddAsync(newIncome);
-			await _financeDBContext.SaveChangesAsync();
+		//	return Ok(incomeDTO);
+		//}
 
-			//IncomeDTO incomeDTO = new
-			//(
-			//	income.Amount,
-			//	income.Date,
-			//	income.Category!.CategoryIncomeName,
-			//	income.Currency!.CurrencyName
-			//);
+		//[HttpPost]
+		//public async Task<IActionResult> Post(Income newIncome)
+		//{
+		//	//Income income = new()
+		//	//{
+		//	//	Amount = newIncome.Amount,
+		//	//	Date = newIncome.Date,
+		//	//	Category = _financeDBContext.CategoryIncomes.Find(newIncome.CategoryIncomeId),
+		//	//	CategoryIncomeId = newIncome.CategoryIncomeId,
+		//	//	Currency = _financeDBContext.Currencies.Find(newIncome.CurrencyId),
+		//	//	CurrencyId = newIncome.CurrencyId
+		//	//};
 
-			return Ok(newIncome);
-		}
+		//	await _financeDBContext.Incomes.AddAsync(newIncome);
+		//	await _financeDBContext.SaveChangesAsync();
 
-		[HttpPut("{id}")]
-		public async Task<IActionResult> Put(UpdateIncomeDTO updateIncome, int id)
-		{
-			var income = await _financeDBContext.Incomes.FindAsync(id);
+		//	//IncomeDTO incomeDTO = new
+		//	//(
+		//	//	income.Amount,
+		//	//	income.Date,
+		//	//	income.Category!.CategoryIncomeName,
+		//	//	income.Currency!.CurrencyName
+		//	//);
 
-			if(income != null)
-			{
-				income.Amount = updateIncome.Amount;
-				income.Date = updateIncome.Date;
-				income.Category = _financeDBContext.CategoryIncomes.Find(updateIncome.CategoryIncomeId);
-				income.CategoryIncomeId = updateIncome.CategoryIncomeId;
-				income.Currency = _financeDBContext.Currencies.Find(updateIncome.CurrencyId);
-				income.CurrencyId = updateIncome.CurrencyId;
+		//	return Ok(newIncome);
+		//}
 
-				await _financeDBContext.SaveChangesAsync();
+		//[HttpPut("{id}")]
+		//public async Task<IActionResult> Put(UpdateIncomeDTO updateIncome, int id)
+		//{
+		//	var income = await _financeDBContext.Incomes.FindAsync(id);
 
-				return Ok(income);
-			}
+		//	if(income != null)
+		//	{
+		//		income.Amount = updateIncome.Amount;
+		//		income.Date = updateIncome.Date;
+		//		income.Category = _financeDBContext.CategoryIncomes.Find(updateIncome.CategoryIncomeId);
+		//		income.CategoryIncomeId = updateIncome.CategoryIncomeId;
+		//		income.Currency = _financeDBContext.Currencies.Find(updateIncome.CurrencyId);
+		//		income.CurrencyId = updateIncome.CurrencyId;
 
-			return NotFound();
-		}
+		//		await _financeDBContext.SaveChangesAsync();
 
-		[HttpDelete("{id}")]
-		public async Task<IActionResult> Delete(int id)
-		{
-			var income = await _financeDBContext.Incomes.Where(i => i.Id == id).ExecuteDeleteAsync();
+		//		return Ok(income);
+		//	}
 
-			return NoContent();
-		}
+		//	return NotFound();
+		//}
+
+		//[HttpDelete("{id}")]
+		//public async Task<IActionResult> Delete(int id)
+		//{
+		//	var income = await _financeDBContext.Incomes.Where(i => i.Id == id).ExecuteDeleteAsync();
+
+		//	return NoContent();
+		//}
 	}
 }

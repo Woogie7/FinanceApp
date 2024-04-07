@@ -1,9 +1,12 @@
 using Microsoft.Net.Http.Headers;
 using Finance.Persistence.Context;
-using Finacne.Application.Repositories;
 using Finance.Domain.Entities;
-using Microsoft.Extensions.DependencyInjection;
 using Finance.Persistence.Repositories;
+using Finance.Application.Interface.Repositories;
+using Finance.Application;
+using Microsoft.Extensions.DependencyInjection;
+using MediatR;
+using Finance.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +14,10 @@ builder.Services.AddControllers();
 
 var connectString = builder.Configuration.GetConnectionString("Icnome");
 builder.Services.AddNpgsql<FinanceDBContext>(connectString);
+
 builder.Services.AddScoped<IGenericRepository<Income>, GenericRepository<Income>>();
+
+builder.Services.AddMediatR(typeof(ApplicationMediatREntryPoint).Assembly);
 
 var app = builder.Build();
 
@@ -23,10 +29,13 @@ app.UseCors(p=>
 
 app.UseHttpsRedirection();
 
+app.UseExceptionHandlers();
+
 app.UseAuthorization();
 
 app.MapControllers();
 
-//await app.MigrateDbAsync();
+app.UseMiddleware<>;
+
 
 app.Run();

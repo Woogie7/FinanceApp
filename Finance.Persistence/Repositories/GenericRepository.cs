@@ -1,11 +1,11 @@
-﻿using Finacne.Application.Repositories;
+﻿using Finance.Application.Interface.Repositories;
 using Finance.Domain.Entities.Base;
 using Finance.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace Finance.Persistence.Repositories
 {
-	public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity
+    public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity
 	{
 		private readonly FinanceDBContext _dbContext;
 		public GenericRepository(FinanceDBContext dbContext) 
