@@ -1,12 +1,6 @@
-﻿using Finance.Domain.Model;
-using Finance.API.Data;
-using Finance.Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Finance.Persistence.Context;
-using Finance.Application.Interface.Repositories;
+﻿using Microsoft.AspNetCore.Mvc;
 using MediatR;
-using Finance.Application.Features.Queries;
+using Finance.Application.Features.IncomeFeatures.Queries;
 
 namespace Finance.API.Controllers
 {
@@ -14,7 +8,8 @@ namespace Finance.API.Controllers
 	[ApiController]
 	public class IncomeController : ControllerBase
 	{
-		public readonly IMediator _mediator;
+		private readonly IMediator _mediator;
+		public readonly ILogger _medi;
 
 		public IncomeController(IMediator mediator)
 		{
@@ -24,9 +19,7 @@ namespace Finance.API.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Get()
 		{
-			throw new Exception("Неизвестаная ошибка");
-
-			//return Ok(await _mediator.Send(new GetAllIncomeQuery()));
+			return Ok(await _mediator.Send(new GetAllIncomeQuery()));
 		}
 
 		//[HttpGet]
@@ -35,34 +28,35 @@ namespace Finance.API.Controllers
 		//{
 		//	var categoryAmounts = _financeDBContext.Incomes
 		//	.GroupBy(i => i.Category.CategoryIncomeName)
-		//	.Select(g=> new CategorySummary {
+		//	.Select(g => new CategorySummary
+		//	{
 		//		CategoryName = g.Key,
-		//		TotalAmount = g.Sum(a=> a.Amount)
+		//		TotalAmount = g.Sum(a => a.Amount)
 		//	});
 
 		//	return Ok(categoryAmounts);
 		//}
 
-		//[HttpGet("{id}")]
-		//public async Task<IActionResult> Get(int id)
-		//{
-		//	var income = await _financeDBContext.Incomes.FindAsync(id);
+		[HttpGet("{id}")]
+		public async Task<IActionResult> Get(int id)
+		{
+			var income = await _mediator.Send(new GetIncomeByIdQuery(id));
 
-		//	if(income == null)
-		//	{
-		//		return NotFound();
-		//	}
+			if (income == null)
+			{
+				return NotFound();
+			}
 
-		//	IncomeDetailsDTO incomeDTO = new
-		//	(
-		//		income.Amount,
-		//		income.Date,
-		//		income.CategoryIncomeId,
-		//		income.CurrencyId
-		//	);
+			//IncomeDetailsDTO incomeDTO = new
+			//(
+			//	income.Amount,
+			//	income.Date,
+			//	income.CategoryIncomeId,
+			//	income.CurrencyId
+			//);
 
-		//	return Ok(incomeDTO);
-		//}
+			return Ok(income);
+		}
 
 		//[HttpPost]
 		//public async Task<IActionResult> Post(Income newIncome)

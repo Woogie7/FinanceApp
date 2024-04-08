@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Finance.Application.Features.Queries
+namespace Finance.Application.Features.IncomeFeatures.Queries
 {
-	public record GetAllIncomeQuery : IRequest<List<Income>>;
+    public record GetIncomeByIdQuery(int id) : IRequest<Income>;
 }

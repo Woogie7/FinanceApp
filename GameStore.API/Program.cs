@@ -16,8 +16,7 @@ var connectString = builder.Configuration.GetConnectionString("Icnome");
 builder.Services.AddNpgsql<FinanceDBContext>(connectString);
 
 builder.Services.AddScoped<IGenericRepository<Income>, GenericRepository<Income>>();
-
-builder.Services.AddMediatR(typeof(ApplicationMediatREntryPoint).Assembly);
+builder.Services.AppApplication();
 
 var app = builder.Build();
 
@@ -34,8 +33,5 @@ app.UseExceptionHandlers();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.UseMiddleware<>;
-
 
 app.Run();
