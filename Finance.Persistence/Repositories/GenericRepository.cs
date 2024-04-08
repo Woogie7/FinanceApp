@@ -15,6 +15,7 @@ namespace Finance.Persistence.Repositories
 		public async Task<T> AddAsync(T entity)
 		{
 			await _dbContext.Set<T>().AddAsync(entity);
+			await _dbContext.SaveChangesAsync();
 			return entity;
 		}
 

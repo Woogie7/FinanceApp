@@ -11,6 +11,7 @@ using Finance.API.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddSwaggerGen();
 
 var connectString = builder.Configuration.GetConnectionString("Icnome");
 builder.Services.AddNpgsql<FinanceDBContext>(connectString);
@@ -19,6 +20,12 @@ builder.Services.AddScoped<IGenericRepository<Income>, GenericRepository<Income>
 builder.Services.AppApplication();
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+	app.UseSwagger();
+	app.UseSwaggerUI();
+}
 
 app.UseCors(p=>
 	p.WithOrigins("https://localhost:7274", "https://localhost:7274")

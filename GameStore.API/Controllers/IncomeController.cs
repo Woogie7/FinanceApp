@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Finance.Application.Features.IncomeFeatures.Queries;
+using Finance.Domain.Entities;
+using Finance.Application.Features.IncomeFeatures.Command;
 
 namespace Finance.API.Controllers
 {
@@ -58,32 +60,13 @@ namespace Finance.API.Controllers
 			return Ok(income);
 		}
 
-		//[HttpPost]
-		//public async Task<IActionResult> Post(Income newIncome)
-		//{
-		//	//Income income = new()
-		//	//{
-		//	//	Amount = newIncome.Amount,
-		//	//	Date = newIncome.Date,
-		//	//	Category = _financeDBContext.CategoryIncomes.Find(newIncome.CategoryIncomeId),
-		//	//	CategoryIncomeId = newIncome.CategoryIncomeId,
-		//	//	Currency = _financeDBContext.Currencies.Find(newIncome.CurrencyId),
-		//	//	CurrencyId = newIncome.CurrencyId
-		//	//};
+		[HttpPost]
+		public async Task<IActionResult> Post([FromBody]Income newIncome)
+		{
+            var income = await _mediator.Send(new CreateIncomeCommand(newIncome));
 
-		//	await _financeDBContext.Incomes.AddAsync(newIncome);
-		//	await _financeDBContext.SaveChangesAsync();
-
-		//	//IncomeDTO incomeDTO = new
-		//	//(
-		//	//	income.Amount,
-		//	//	income.Date,
-		//	//	income.Category!.CategoryIncomeName,
-		//	//	income.Currency!.CurrencyName
-		//	//);
-
-		//	return Ok(newIncome);
-		//}
+			return Ok(income);
+		}
 
 		//[HttpPut("{id}")]
 		//public async Task<IActionResult> Put(UpdateIncomeDTO updateIncome, int id)
