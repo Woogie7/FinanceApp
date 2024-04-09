@@ -63,6 +63,18 @@ namespace Finance.API.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Post([FromBody]Income newIncome)
 		{
+			newIncome.Category = new CategoryIncome
+			{
+				Id = newIncome.CategoryIncomeId,
+				CategoryIncomeName = newIncome.Category.CategoryIncomeName
+			};
+
+			newIncome.Currency = new Currency
+			{
+				Id = newIncome.CurrencyId,
+				CurrencyName = newIncome.Currency.CurrencyName
+			};
+
             var income = await _mediator.Send(new CreateIncomeCommand(newIncome));
 
 			return Ok(income);

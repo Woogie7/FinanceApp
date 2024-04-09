@@ -13,10 +13,10 @@ namespace Finance.Application.Features.IncomeFeatures.Handler
 {
     public class CreateIncomeHandler : IRequestHandler<CreateIncomeCommand, Income>
     {
-        private readonly IGenericRepository<Income> _repository;
+        private readonly IIncomeRepository _repository;
         private readonly ILogger<GetIncomeByIdHandler> _logger;
 
-        public CreateIncomeHandler(IGenericRepository<Income> repository, ILogger<GetIncomeByIdHandler> logger)
+        public CreateIncomeHandler(IIncomeRepository repository, ILogger<GetIncomeByIdHandler> logger)
         {
             _repository = repository;
             _logger = logger;

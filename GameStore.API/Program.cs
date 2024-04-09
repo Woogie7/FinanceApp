@@ -7,16 +7,19 @@ using Finance.Application;
 using Microsoft.Extensions.DependencyInjection;
 using MediatR;
 using Finance.API.Data;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
-var connectString = builder.Configuration.GetConnectionString("Icnome");
-builder.Services.AddNpgsql<FinanceDBContext>(connectString);
+var connectionString = builder.Configuration.GetConnectionString("Icnome");
+builder.Services.AddDbContext<FinanceDBContext>(options =>
+    options.UseNpgsql(connectionString));
 
-builder.Services.AddScoped<IGenericRepository<Income>, GenericRepository<Income>>();
+builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
 builder.Services.AppApplication();
 
 var app = builder.Build();

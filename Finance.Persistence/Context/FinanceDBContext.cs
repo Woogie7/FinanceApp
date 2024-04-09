@@ -10,6 +10,7 @@ namespace Finance.Persistence.Context
 
 		public DbSet<Currency> Currencies { get; set; }
 
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			

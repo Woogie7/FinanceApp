@@ -7,9 +7,9 @@ namespace Finance.Application.Features.IncomeFeatures.Handler;
 
 public class GetAllIncomeHandler : IRequestHandler<GetAllIncomeQuery, List<Income>>
 {
-    private readonly IGenericRepository<Income> _incomeRepository;
+    private readonly IIncomeRepository _incomeRepository;
 
-    public GetAllIncomeHandler(IGenericRepository<Income> IncomeRepository)
+    public GetAllIncomeHandler(IIncomeRepository IncomeRepository)
     {
         _incomeRepository = IncomeRepository;
     }
