@@ -3,6 +3,7 @@ using MediatR;
 using Finance.Application.Features.IncomeFeatures.Queries;
 using Finance.Domain.Entities;
 using Finance.Application.Features.IncomeFeatures.Command;
+using Finance.Application.DTOs;
 
 namespace Finance.API.Controllers
 {
@@ -21,7 +22,9 @@ namespace Finance.API.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Get()
 		{
-			return Ok(await _mediator.Send(new GetAllIncomeQuery()));
+			var income = await _mediator.Send(new GetAllIncomeQuery());
+
+            return Ok(income);
 		}
 
 		//[HttpGet]
@@ -61,21 +64,18 @@ namespace Finance.API.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Post([FromBody]Income newIncome)
+		public async Task<IActionResult> Post([FromBody]CreateIncomeDto newIncome)
 		{
-			newIncome.Category = new CategoryIncome
+
+			var income = new Income()
 			{
-				Id = newIncome.CategoryIncomeId,
-				CategoryIncomeName = newIncome.Category.CategoryIncomeName
+				Amount = newIncome.Amount,
+				CurrencyId = newIncome.CurrencyId,
+				CategoryIncomeId = newIncome.CategoryIncomeId,
+				Date = newIncome.Date,
 			};
 
-			newIncome.Currency = new Currency
-			{
-				Id = newIncome.CurrencyId,
-				CurrencyName = newIncome.Currency.CurrencyName
-			};
-
-            var income = await _mediator.Send(new CreateIncomeCommand(newIncome));
+            income = await _mediator.Send(new CreateIncomeCommand(income));
 
 			return Ok(income);
 		}

@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Finance.Application.Features.IncomeFeatures.Queries;
 
-public record GetAllIncomeQuery : IRequest<List<Income>>;
+public record GetAllIncomeQuery : IRequest<IEnumerable<Income>>;

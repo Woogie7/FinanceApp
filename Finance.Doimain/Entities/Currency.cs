@@ -6,5 +6,5 @@ namespace Finance.Domain.Entities;
 public class Currency : Entity
 {
 	public required string CurrencyName { get; set; }
-    public List<Income> Incomes { get; set; } = new List<Income>();
+    public ICollection<Income> Incomes { get; set; }
 }

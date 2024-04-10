@@ -7,7 +7,7 @@
 
     <main>
         <article class="content px-4">
-            <ErrorBoundary Context="Exception">
+            @* <ErrorBoundary Context="Exception">
                 <ChildContent>
                     @Body
                 </ChildContent>
@@ -16,7 +16,8 @@
                         @Exception.Message
                     </div>
                 </ErrorContent>
-            </ErrorBoundary>
+            </ErrorBoundary> *@
+            @Body
         </article>
     </main>
 </div>

@@ -4,32 +4,42 @@
 <PageTitle>Новый доход</PageTitle>
 <h1>Добавление нового дохода</h1>
 
-<EditForm Model="@Income">
-	<DataAnnotationsValidator />
-	<ValidationSummary />
-	<label for="amount">Сумма</label>
-	<InputNumber id="amount" @bind-Value="Income.Amount" class="form-control"></InputNumber>
-
-	<label for="currency" class="form-label">Курс:</label>
-	<InputSelect id="currency" @bind-Value="Income.Currency" class="form-select">
-		<option value="">Выберите влюту</option>
-		@foreach (var cur in Currencies)
-		{
-			<option value="@cur.Id">@cur.CurrencyName</option>
-		}
-	</InputSelect>
-
-	<label for="category" class="form-label">Категория:</label>
-	<InputSelect id="category" @bind-Value="Income.Category" class="form-select">
-		<option value="">Выберите категорию</option>
-		@foreach (var cat in CategoryIncomes)
-		{
-			<option value="@cat.Id">@cat.CategoryIncomeName</option>
-		}
-	</InputSelect>
-
-	<label for="date" class="form-label">Дата:</label>
-	<InputDate @bind-Value="Income.Date"></InputDate>
+<EditForm Model="@NewIncome" OnSubmit="AddIncome" class="row p-3">
+    <div class="col-md-12 mb-3">
+        <label for="Amount">Сумма</label>
+        <InputNumber id="Amount" @bind-Value="NewIncome.Amount" class="form-control" />
+    </div>
+    @if (Currencies != null)
+    {
+        <div class="col-md-12 mb-3">
+            <InputSelect @bind-Value="NewIncome.CurrencyId" class="form-select">
+                <option value="0">Выберите валюту</option>
+                @foreach (var currency in Currencies)
+                {
+                    <option value="@currency.Id">@currency.CurrencyName</option>
+                }
+            </InputSelect>
+        </div>
+    }
+    @if (CategoryIncomes != null)
+    {
+        <div class="col-md-12 mb-3">
+            <InputSelect @bind-Value="NewIncome.CategoryIncomeId" class="form-select">
+                <option value="0">Выберите валюту</option>
+                @foreach (var categoryIncome in CategoryIncomes)
+                {
+                    <option value="@categoryIncome.Id">@categoryIncome.CategoryIncomeName</option>
+                }
+            </InputSelect>
+        </div>
+    }
+    <div class="col-md-12 mb-3">
+        <label for="Date">Дата</label>
+        <InputDate id="Date" @bind-Value="NewIncome.Date" class="form-control" />
+    </div>
+    <div class="col-12 mb-3">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
 </EditForm>
 
 

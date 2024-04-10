@@ -19,9 +19,24 @@ namespace Finance.Persistence.Repositories
         }
         public async Task<Income> AddAsync(Income newIncome)
         {
-            await _dbContext.Set<Income>().AddAsync(newIncome);
-            await _dbContext.SaveChangesAsync();
-            return newIncome;
+            try
+            {
+
+                var category = _dbContext.CategoryIncomes.FirstOrDefault(c=>c.Id == newIncome.CategoryIncomeId);
+                var currency = _dbContext.Currencies.FirstOrDefault(c=>c.Id == newIncome.CurrencyId);
+
+                newIncome.Currency = currency;
+                newIncome.Category = category;
+
+                await _dbContext.Set<Income>().AddAsync(newIncome);
+                await _dbContext.SaveChangesAsync();
+                return newIncome;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return null;
+            }
         }
 
         public Task UpdateAsync(Income income)
@@ -37,18 +52,14 @@ namespace Finance.Persistence.Repositories
             return Task.CompletedTask;
         }
 
-        public async Task<List<Income>> GetAllAsync()
+        public async Task<IEnumerable<Income>> GetAllAsync()
         {
-            return await _dbContext.Set<Income>()
-                .AsNoTracking()
-                .Include(p=> p.Currency)
-                .Include(p=> p.Category)
-                .ToListAsync();
+            return await _dbContext.Incomes.ToListAsync();
         }
 
         public async Task<Income> GetByIdAsync(int id)
         {
-            return await _dbContext.Set<Income>().FindAsync(id);
+            return await _dbContext.Incomes.FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

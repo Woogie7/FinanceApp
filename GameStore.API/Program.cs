@@ -38,10 +38,12 @@ app.UseCors(p=>
 
 app.UseHttpsRedirection();
 
-app.UseExceptionHandlers();
+//app.UseExceptionHandlers();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+
 
 app.Run();
