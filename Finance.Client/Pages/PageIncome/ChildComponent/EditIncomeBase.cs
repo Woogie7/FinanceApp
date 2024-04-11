@@ -4,14 +4,14 @@ using Finance.Client.Services.Interface;
 using Finance.Domain.Entities;
 using Microsoft.AspNetCore.Components;
 
-namespace Finance.Client.Pages
+namespace Finance.Client.Pages.PageIncome.ChildComponent
 {
     public class EditIncomeBase : ComponentBase
-	{
-		public CreateIncomeDto NewIncome = new CreateIncomeDto();
+    {
+        public CreateIncomeDto NewIncome = new CreateIncomeDto();
 
         public IEnumerable<Currency> Currencies { get; set; }
-		public IEnumerable<CategoryIncome> CategoryIncomes { get; set; }
+        public IEnumerable<CategoryIncome> CategoryIncomes { get; set; }
 
 
         [Inject]

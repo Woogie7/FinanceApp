@@ -6,53 +6,65 @@
 
 <h1>Доходы</h1>
 
-<div class="row mb-4">
-	<div class="col-sm-2">
-		<button type="button" class="btn btn-primary" @onclick="HandleSumbit">
-			Новый доход
-		</button>
-	</div>
-	<div class="col-sm-2">
-		<textarea @bind="Description" @bind:event="oninput"/>
-		Count: @Description.Length
-	</div>
-	<div class="col-sm-2">
-		<InputCheckbox id="showCategory" @bind-Value="ShowCategory" />
-		<label for="showCategory">Показать категории</label>
-	</div>
+<div class="row">
+    <!-- Левая часть -->
+    <div class="col-sm-8">
+        @if (Currencies == null)
+        {
+            <h2>Нет валют</h2>
+        }
+        else
+        {
+            <div class="col-sm-12">
+                <select class="form-select" @onchange="ChangeCurrency">
+                    <option value="0">Выберите валюту</option>
+                    @foreach (var currency in Currencies)
+                    {
+                        <option value="@currency.CurrencyName">@currency.CurrencyName</option>
+                    }
+                </select>
+            </div>
+        }
 
-	@if(Currencies == null)
-	{
-		<h2>Нет валют</h2>
-	}
-	else
-	{
-		<div class="col-sm-2">
-			<select class="form-select" @onchange="ChangeCurrency">
-				<option value="0">Выберите валюту</option>
-				@foreach (var currency in Currencies)
-				{
-					<option value="@currency.CurrencyName">@currency.CurrencyName</option>
-				}
-			</select>
-		</div>
-	}
+        @if (Incomes == null)
+        {
+            <h2>Загрузка доходов</h2>
+        }
+        else
+        {
+            <div class="col-sm-12">
+                <DisplayTableIncome Incomes="@FilteredIncomes()"></DisplayTableIncome>
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-sm-2">
+                    <InputCheckbox id="showCategory" @bind-Value="ShowCategory" />
+                    <label for="showCategory">Показать категории</label>
+                </div>
+                <div class="col-sm-6">
+                    <SummaryCategory ShowCategory="ShowCategory"></SummaryCategory>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Правая часть -->
+    <div class="col-sm-4">
+        <div class="col-sm-12">
+            <!-- Поля для отображения информации о доходе за различные периоды времени -->
+            <!-- Поля показывающие доход за год, месяц, неделю, день -->
+            <!-- Здесь нужно добавить соответствующие поля -->
+        </div>
+        <div class="col-sm-12">
+            <!-- Форма для добавления нового дохода -->
+            <EditIncome></EditIncome>
+        </div>
+    </div>
 </div>
 
 
-@if(Incomes == null)
-{
-	<h2>Загрузка доходов</h2>
-}
-else
-{
-	<DisplayTableIncome Incomes="@FilteredIncomes()"></DisplayTableIncome>
-}
-
-
-<div class="col-sm-6">
-	<SummaryCategory ShowCategory="ShowCategory"></SummaryCategory>
-</div>
 
 
 
