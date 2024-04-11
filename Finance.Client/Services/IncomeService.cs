@@ -16,11 +16,11 @@ namespace Finance.Client.Services
 		{
 			_httpClient = httpClient;
 		}
-		public async Task<IEnumerable<Income>?> GetIncomesAsync()
+		public async Task<IEnumerable<IncomeDTO>?> GetIncomesAsync()
 		{
 			try
 			{
-				var incomes = await _httpClient.GetFromJsonAsync<IEnumerable<Income>>("api/Income");
+				var incomes = await _httpClient.GetFromJsonAsync<IEnumerable<IncomeDTO>>("api/Income");
 				return incomes;
 			}
 			catch (Exception ex)
@@ -31,10 +31,10 @@ namespace Finance.Client.Services
 			
 		}
 
-        public async Task<Income> AddIncomeAsync(CreateIncomeDto newIncome)
+        public async Task<CreateIncomeDto> AddIncomeAsync(CreateIncomeDto newIncome)
 		{
 			try
-			{
+			 {
 				var itemJson = new StringContent(JsonSerializer.Serialize(newIncome), Encoding.UTF8, "application/json");
 				var response = await _httpClient.PostAsync($"api/Income/", itemJson);
 
@@ -42,7 +42,7 @@ namespace Finance.Client.Services
 				{
 					var responseBody = await response.Content.ReadAsStreamAsync();
 
-					var addIncome = await JsonSerializer.DeserializeAsync<Income>(responseBody, new JsonSerializerOptions
+					var addIncome = await JsonSerializer.DeserializeAsync<CreateIncomeDto>(responseBody, new JsonSerializerOptions
 					{
 						PropertyNameCaseInsensitive = true
 					});

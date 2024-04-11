@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Finance.Persistence.Migrations
 {
     [DbContext(typeof(FinanceDBContext))]
-    [Migration("20240409193020_mig")]
-    partial class mig
+    [Migration("20240411165918_asd")]
+    partial class asd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

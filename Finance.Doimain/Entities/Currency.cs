@@ -1,4 +1,5 @@
 ﻿using Finance.Domain.Entities.Base;
+using System.Text.Json.Serialization;
 using System.Xml.Linq;
 
 namespace Finance.Domain.Entities;

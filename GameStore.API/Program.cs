@@ -9,6 +9,7 @@ using MediatR;
 using Finance.API.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,8 @@ builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("Icnome");
 builder.Services.AddDbContext<FinanceDBContext>(options =>
     options.UseNpgsql(connectionString));
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
 builder.Services.AppApplication();

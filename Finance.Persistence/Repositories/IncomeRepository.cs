@@ -21,9 +21,8 @@ namespace Finance.Persistence.Repositories
         {
             try
             {
-
-                var category = _dbContext.CategoryIncomes.FirstOrDefault(c=>c.Id == newIncome.CategoryIncomeId);
-                var currency = _dbContext.Currencies.FirstOrDefault(c=>c.Id == newIncome.CurrencyId);
+                var category = await _dbContext.CategoryIncomes.FirstOrDefaultAsync(c => c.Id == newIncome.CategoryIncomeId);
+                var currency = await _dbContext.Currencies.FirstOrDefaultAsync(c => c.Id == newIncome.CurrencyId);
 
                 newIncome.Currency = currency;
                 newIncome.Category = category;
@@ -54,7 +53,10 @@ namespace Finance.Persistence.Repositories
 
         public async Task<IEnumerable<Income>> GetAllAsync()
         {
-            return await _dbContext.Incomes.ToListAsync();
+            return await _dbContext.Incomes
+                .Include(x => x.Category)
+                .Include(x => x.Currency)
+                .ToListAsync();
         }
 
         public async Task<Income> GetByIdAsync(int id)

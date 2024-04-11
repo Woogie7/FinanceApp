@@ -1,6 +1,7 @@
 ﻿using Finance.Client.Services.Interface;
 using Microsoft.AspNetCore.Components;
 using Finance.Domain.Entities;
+using Finance.Application.DTOs;
 
 namespace Finance.Client.Pages.PageIncome;
 
@@ -14,10 +15,10 @@ public class IncomeBase : ComponentBase
     public NavigationManager NavigationManager { get; set; }
 
 
-    public IEnumerable<Income> Incomes { get; set; }
+    public IEnumerable<IncomeDTO> Incomes { get; set; }
     public IEnumerable<Currency> Currencies { get; set; }
 
-    private int selectedCurrencyId;
+    private string selectedCurrency;
 
     public string Description { get; set; } = string.Empty;
 	public bool ShowCategory { get; set; }
@@ -35,19 +36,19 @@ public class IncomeBase : ComponentBase
 
     public void ChangeCurrency(ChangeEventArgs e)
     {
-        selectedCurrencyId = Convert.ToInt32(e.Value);
+        selectedCurrency = e.Value.ToString();
         StateHasChanged();
     }
 
-	public IEnumerable<Income> FilteredIncomes()
+	public IEnumerable<IncomeDTO> FilteredIncomes()
     {
-        if (selectedCurrencyId == 0)
+        if (String.IsNullOrWhiteSpace(selectedCurrency))
         {
             return Incomes;
         }
         else
         {
-            return Incomes.Where(i => i.CurrencyId == selectedCurrencyId);
+            return Incomes.Where(i => i.Currency == selectedCurrency);
         }
     }
 }

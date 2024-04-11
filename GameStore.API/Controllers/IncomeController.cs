@@ -4,6 +4,7 @@ using Finance.Application.Features.IncomeFeatures.Queries;
 using Finance.Domain.Entities;
 using Finance.Application.Features.IncomeFeatures.Command;
 using Finance.Application.DTOs;
+using AutoMapper;
 
 namespace Finance.API.Controllers
 {
@@ -12,17 +13,22 @@ namespace Finance.API.Controllers
 	public class IncomeController : ControllerBase
 	{
 		private readonly IMediator _mediator;
-		public readonly ILogger _medi;
+		private readonly IMapper _mapper;
+		private readonly ILogger<IncomeController> _logger;
 
-		public IncomeController(IMediator mediator)
-		{
-			_mediator = mediator;
-		}
+        public IncomeController(IMediator mediator, IMapper mapper, ILogger<IncomeController> logger)
+        {
+            _mediator = mediator;
+            _mapper = mapper;
+            _logger = logger;
+        }
 
-		[HttpGet]
+        [HttpGet]
 		public async Task<IActionResult> Get()
 		{
-			var income = await _mediator.Send(new GetAllIncomeQuery());
+			var reqestIncome = await _mediator.Send(new GetAllIncomeQuery());
+
+            var income = reqestIncome.Select(income => _mapper.Map<IncomeDTO>(income));
 
             return Ok(income);
 		}
@@ -52,32 +58,22 @@ namespace Finance.API.Controllers
 				return NotFound();
 			}
 
-			//IncomeDetailsDTO incomeDTO = new
-			//(
-			//	income.Amount,
-			//	income.Date,
-			//	income.CategoryIncomeId,
-			//	income.CurrencyId
-			//);
+            var incomeDTO = _mapper.Map<IncomeDTO>(income);
 
-			return Ok(income);
-		}
+            return Ok(incomeDTO);
+        }
 
 		[HttpPost]
 		public async Task<IActionResult> Post([FromBody]CreateIncomeDto newIncome)
 		{
 
-			var income = new Income()
-			{
-				Amount = newIncome.Amount,
-				CurrencyId = newIncome.CurrencyId,
-				CategoryIncomeId = newIncome.CategoryIncomeId,
-				Date = newIncome.Date,
-			};
+			var income = _mapper.Map<Income>(newIncome);
 
-            income = await _mediator.Send(new CreateIncomeCommand(income));
+            var requestIncome = await _mediator.Send(new CreateIncomeCommand(income));
 
-			return Ok(income);
+            var incomeDTO = _mapper.Map<IncomeDTO>(requestIncome);
+
+            return Ok(incomeDTO);
 		}
 
 		//[HttpPut("{id}")]
