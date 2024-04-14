@@ -5,6 +5,9 @@ using Finance.Domain.Entities;
 using Finance.Application.Features.IncomeFeatures.Command;
 using Finance.Application.DTOs;
 using AutoMapper;
+using Finance.Domain.Model;
+using Finance.Persistence.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Finance.API.Controllers
 {
@@ -15,15 +18,17 @@ namespace Finance.API.Controllers
 		private readonly IMediator _mediator;
 		private readonly IMapper _mapper;
 		private readonly ILogger<IncomeController> _logger;
+		private readonly FinanceDBContext _financeDBContext;
 
-        public IncomeController(IMediator mediator, IMapper mapper, ILogger<IncomeController> logger)
-        {
-            _mediator = mediator;
-            _mapper = mapper;
-            _logger = logger;
-        }
+		public IncomeController(IMediator mediator, IMapper mapper, ILogger<IncomeController> logger, FinanceDBContext financeDBContext)
+		{
+			_mediator = mediator;
+			_mapper = mapper;
+			_logger = logger;
+			_financeDBContext = financeDBContext;
+		}
 
-        [HttpGet]
+		[HttpGet]
 		public async Task<IActionResult> Get()
 		{
 			var reqestIncome = await _mediator.Send(new GetAllIncomeQuery());
@@ -33,20 +38,25 @@ namespace Finance.API.Controllers
             return Ok(income);
 		}
 
-		//[HttpGet]
-		//[Route("Cat")]
-		//public async Task<IActionResult> GetCategorySum()
-		//{
-		//	var categoryAmounts = _financeDBContext.Incomes
-		//	.GroupBy(i => i.Category.CategoryIncomeName)
-		//	.Select(g => new CategorySummary
-		//	{
-		//		CategoryName = g.Key,
-		//		TotalAmount = g.Sum(a => a.Amount)
-		//	});
+		[HttpGet("Cat/{selectedCurrency}")]
+        public async Task<IActionResult> GetCategorySum(string selectedCurrency)
+		{
+			if(selectedCurrency == null || selectedCurrency.Length == 0)
+			{
+				return Ok(null);
+			}
+			var categoryAmounts = await _mediator.Send(new GetAllIncomeQuery());
+			var income = categoryAmounts.Select(income => _mapper.Map<IncomeDTO>(income));
+			var i = income.Where(i => i.Currency == selectedCurrency)
+				.GroupBy(i => i.CategoryIncome)
+				.Select(g => new CategorySummary
+				{
+					CategoryName = g.Key,
+					TotalAmount = g.Sum(a => a.Amount)
+				});
 
-		//	return Ok(categoryAmounts);
-		//}
+			return Ok(i);
+		}
 
 		[HttpGet("{id}")]
 		public async Task<IActionResult> Get(int id)
@@ -98,12 +108,12 @@ namespace Finance.API.Controllers
 		//	return NotFound();
 		//}
 
-		//[HttpDelete("{id}")]
-		//public async Task<IActionResult> Delete(int id)
-		//{
-		//	var income = await _financeDBContext.Incomes.Where(i => i.Id == id).ExecuteDeleteAsync();
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> Delete(int id)
+		{
+			var income = await _financeDBContext.Incomes.ExecuteDeleteAsync();
 
-		//	return NoContent();
-		//}
+			return NoContent();
+		}
 	}
 }

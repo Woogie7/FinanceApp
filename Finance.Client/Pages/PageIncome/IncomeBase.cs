@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Finance.Domain.Entities;
 using Finance.Application.DTOs;
+using Radzen;
 
 namespace Finance.Client.Pages.PageIncome;
 
@@ -16,17 +17,19 @@ public class IncomeBase : ComponentBase
 
 
     public IEnumerable<IncomeDTO> Incomes { get; set; }
+    public IEnumerable<IncomeDTO> FilterIncomes { get; set; }
     public IEnumerable<Currency> Currencies { get; set; }
 
-    private string selectedCurrency;
-
-    public string Description { get; set; } = string.Empty;
+    public string SelectedCurrency;
+    public string SelectedCategory;
 	public bool ShowCategory { get; set; }
 
 	protected override async Task OnInitializedAsync()
     {
         Incomes = await IncomeService.GetIncomesAsync();
         Currencies = await CurrencyService.GetCurrenciesAsync();
+
+        FilterIncomes = Incomes;
     }
 
     public void HandleSumbit()
@@ -36,19 +39,39 @@ public class IncomeBase : ComponentBase
 
     public void ChangeCurrency(ChangeEventArgs e)
     {
-        selectedCurrency = e.Value.ToString();
+		SelectedCurrency = e.Value.ToString();
+        ShowCategory = false;
+        SelectedCategory = null;
+        FilteredIncomes();
+        
         StateHasChanged();
     }
 
-	public IEnumerable<IncomeDTO> FilteredIncomes()
+	private void FilteredIncomes()
     {
-        if (String.IsNullOrWhiteSpace(selectedCurrency))
+        if (String.IsNullOrWhiteSpace(SelectedCurrency) && String.IsNullOrWhiteSpace(SelectedCategory))
         {
-            return Incomes;
+            FilterIncomes = Incomes;
         }
         else
         {
-            return Incomes.Where(i => i.Currency == selectedCurrency);
+            ShowCategory = true;
+            FilterIncomes = Incomes.Where(i => i.Currency == SelectedCurrency && (string.IsNullOrEmpty(SelectedCategory) || i.CategoryIncome == SelectedCategory));
+
+
         }
     }
+    public void HandleCategoryClicked(string selectedCategory)
+    {
+        if(SelectedCategory != selectedCategory) 
+        {
+            SelectedCategory = selectedCategory;
+            FilteredIncomes();
+        }
+        else 
+        { 
+            SelectedCategory = null; 
+        }
+    }
+
 }

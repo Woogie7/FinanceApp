@@ -58,11 +58,13 @@ namespace Finance.Client.Services
 			}
 		}
 
-		public async Task<IEnumerable<CategorySummary>?> GetCat()
+		public async Task<IEnumerable<CategorySummary>?> GetCat(string selectedCurrency)
 		{
 			try
 			{
-				var cat = await _httpClient.GetFromJsonAsync<IEnumerable<CategorySummary>>("api/Income/cat");
+				if(String.IsNullOrWhiteSpace(selectedCurrency))
+					return null;
+				var cat = await _httpClient.GetFromJsonAsync<IEnumerable<CategorySummary>>($"api/Income/Cat/{selectedCurrency}");
 				return cat;
 			}
 			catch (Exception ex)

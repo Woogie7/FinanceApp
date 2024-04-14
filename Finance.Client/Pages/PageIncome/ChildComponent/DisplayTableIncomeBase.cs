@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Finance.Domain.Entities;
 using Finance.Application.DTOs;
+using Finance.Client.Services;
+using Finance.Domain.Model;
 
 namespace Finance.Client.Pages.PageIncome
 {
