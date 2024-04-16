@@ -4,7 +4,7 @@ using Finance.Domain.Entities;
 using Finance.Application.DTOs;
 using Radzen;
 
-namespace Finance.Client.Pages.PageIncome;
+namespace Finance.Client.Pages.IncomePage;
 
 public class IncomeBase : ComponentBase
 {
@@ -22,9 +22,9 @@ public class IncomeBase : ComponentBase
 
     public string SelectedCurrency;
     public string SelectedCategory;
-	public bool ShowCategory { get; set; }
+    public bool ShowCategory { get; set; }
 
-	protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         Incomes = await IncomeService.GetIncomesAsync();
         Currencies = await CurrencyService.GetCurrenciesAsync();
@@ -39,17 +39,17 @@ public class IncomeBase : ComponentBase
 
     public void ChangeCurrency(ChangeEventArgs e)
     {
-		SelectedCurrency = e.Value.ToString();
+        SelectedCurrency = e.Value.ToString();
         ShowCategory = false;
         SelectedCategory = null;
         FilteredIncomes();
-        
+
         StateHasChanged();
     }
 
-	private void FilteredIncomes()
+    private void FilteredIncomes()
     {
-        if (String.IsNullOrWhiteSpace(SelectedCurrency) && String.IsNullOrWhiteSpace(SelectedCategory))
+        if (string.IsNullOrWhiteSpace(SelectedCurrency) && string.IsNullOrWhiteSpace(SelectedCategory))
         {
             FilterIncomes = Incomes;
         }
@@ -63,14 +63,14 @@ public class IncomeBase : ComponentBase
     }
     public void HandleCategoryClicked(string selectedCategory)
     {
-        if(SelectedCategory != selectedCategory) 
+        if (SelectedCategory != selectedCategory)
         {
             SelectedCategory = selectedCategory;
             FilteredIncomes();
         }
-        else 
-        { 
-            SelectedCategory = null; 
+        else
+        {
+            SelectedCategory = null;
         }
     }
 

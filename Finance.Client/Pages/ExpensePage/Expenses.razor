@@ -1,0 +1,62 @@
+﻿@page "/Expenses"
+@inherits 
+
+<PageTitle>Income</PageTitle>
+
+<div style="display: flex;">
+    <div style="flex: 3; padding: 10px;">
+        <div>
+            <h1>Доходы</h1>
+            @if (Currencies == null)
+            {
+                <h2>Нет валют</h2>
+            }
+            else
+            {
+                <div class="col-sm-4 mb-4">
+                    <select class="form-select" @onchange="ChangeCurrency">
+                        <option value="">Выберите валюту</option>
+                        @foreach (var currency in Currencies)
+                        {
+                            <option value="@currency.CurrencyName">@currency.CurrencyName</option>
+                        }
+                    </select>
+                </div>
+            }
+
+            @if (Incomes == null)
+            {
+                <h2>Загрузка доходов</h2>
+            }
+            else
+            {
+                <div>
+                    <DisplayTableIncome Incomes="FilterIncomes"></DisplayTableIncome>
+                </div>
+            }
+
+            <div>
+                <SummaryCategory ShowCategory="ShowCategory" SelectedCurrency="@SelectedCurrency" CategoryClicked="HandleCategoryClicked"></SummaryCategory>
+            </div>
+        </div>
+    </div>
+    <div style="flex: 1; padding: 20px; border-left: 3px solid #333;">
+        <div>
+            <div>
+                <h1>ыфув(1/4)</h1>
+            </div>
+            <div>
+                <!-- Форма для добавления нового дохода -->
+                <EditIncome></EditIncome>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+

@@ -3,7 +3,7 @@ using Finance.Domain.Model;
 using Microsoft.AspNetCore.Components;
 using Radzen;
 
-namespace Finance.Client.Pages.PageIncome.ChildComponent;
+namespace Finance.Client.Pages.IncomePage.ChildComponent;
 
 public class SummaryCategoryBase : ComponentBase
 {
