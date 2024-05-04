@@ -14,6 +14,6 @@ namespace Finance.Application.Interface.Repositories
         Task<IEnumerable<Income>> GetAllAsync();
         Task<Income> AddAsync(Income entity);
         Task UpdateAsync(Income entity);
-        Task DeleteAsync(Income entity);
+        Task<Income> DeleteAsync(int id);
     }
 }

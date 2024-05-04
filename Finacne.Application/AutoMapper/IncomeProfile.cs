@@ -31,6 +31,13 @@ namespace Finance.Application.AutoMapper
                 .ForMember(crtI => crtI.CategoryIncome, i => i.MapFrom(x => x.Category.CategoryIncomeName))
                 .ForMember(crtI => crtI.Date, i => i.MapFrom(x => x.Date));
 
+            CreateMap<Income, DeteilsIncomeDTO>()
+                .ForMember(crtI => crtI.id, i => i.MapFrom(x => x.Id))
+                .ForMember(crtI => crtI.Amount, i => i.MapFrom(x => x.Amount))
+                .ForMember(crtI => crtI.Currency, i => i.MapFrom(x => x.Currency.Id))
+                .ForMember(crtI => crtI.CategoryIncome, i => i.MapFrom(x => x.Category.Id))
+                .ForMember(crtI => crtI.Date, i => i.MapFrom(x => x.Date));
+
 
         }
     }

@@ -76,7 +76,6 @@ namespace Finance.API.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Post([FromBody]CreateIncomeDto newIncome)
 		{
-
 			var income = _mapper.Map<Income>(newIncome);
 
             var requestIncome = await _mediator.Send(new CreateIncomeCommand(income));
@@ -111,9 +110,11 @@ namespace Finance.API.Controllers
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> Delete(int id)
 		{
-			var income = await _financeDBContext.Incomes.ExecuteDeleteAsync();
+            var requestIncome = await _mediator.Send(new DeleteIncomeCommand(id));
 
-			return NoContent();
-		}
+            var detatilsIncomeDTO = _mapper.Map<DeteilsIncomeDTO>(requestIncome);
+
+            return NoContent();
+        }
 	}
 }

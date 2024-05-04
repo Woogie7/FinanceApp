@@ -1,4 +1,5 @@
-﻿using Finance.Application.Interface.Repositories;
+﻿using Finance.Application.DTOs;
+using Finance.Application.Interface.Repositories;
 using Finance.Domain.Entities;
 using Finance.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +28,7 @@ namespace Finance.Persistence.Repositories
                 newIncome.Currency = currency;
                 newIncome.Category = category;
 
-                await _dbContext.Set<Income>().AddAsync(newIncome);
+                await _dbContext.Incomes.AddAsync(newIncome);
                 await _dbContext.SaveChangesAsync();
                 return newIncome;
             }
@@ -45,10 +46,12 @@ namespace Finance.Persistence.Repositories
             return Task.CompletedTask;
         }
 
-        public Task DeleteAsync(Income income)
+        public async Task<Income> DeleteAsync(int id)
         {
-            _dbContext.Set<Income>().Remove(income);
-            return Task.CompletedTask;
+            var deletedIndome = _dbContext.Incomes.FirstOrDefault(i => i.Id == id);
+            _dbContext.Incomes.Remove(deletedIndome);
+            await _dbContext.SaveChangesAsync();
+            return deletedIndome;
         }
 
         public async Task<IEnumerable<Income>> GetAllAsync()
