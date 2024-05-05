@@ -9,6 +9,8 @@ namespace Finance.Application.DTOs
 {
     public class IncomeDTO
     {
+        public int ID {  get; set; }
+
         public decimal Amount { get; set; }
 
         public DateOnly Date { get; set; }

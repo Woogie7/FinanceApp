@@ -1,6 +1,5 @@
 ﻿using Finance.Application.Features.IncomeFeatures.Command;
 using Finance.Application.Interface.Repositories;
-using Finance.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace Finance.Application.Features.IncomeFeatures.Handler
 {
-    public class DeleteIncomeHandler : IRequestHandler<DeleteIncomeCommand, bool>
+    public class DeleteAllIncomeHandler : IRequestHandler<DeleteAllIncomeCommand, bool>
     {
         private readonly IIncomeRepository _repository;
-        private readonly ILogger<DeleteIncomeHandler> _logger;
+        private readonly ILogger<DeleteAllIncomeHandler> _logger;
 
-        public DeleteIncomeHandler(IIncomeRepository repository, ILogger<DeleteIncomeHandler> logger)
+        public DeleteAllIncomeHandler(IIncomeRepository repository, ILogger<DeleteAllIncomeHandler> logger)
         {
             _repository = repository;
             _logger = logger;
         }
 
-        public async Task<bool> Handle(DeleteIncomeCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteAllIncomeCommand request, CancellationToken cancellationToken)
         {
             if (request == null)
             {
@@ -31,13 +30,13 @@ namespace Finance.Application.Features.IncomeFeatures.Handler
 
             try
             {
-                await _repository.DeleteAsync(request.id);  
-                _logger.LogInformation($"Income with ID {request.id} deleted successfully");
+                await _repository.DeleteAllAsync();
+                _logger.LogInformation($"All incomes deleted successfully");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error deleting income with ID {request.id}.");
-                throw;  
+                _logger.LogError(ex, $"Error deleting all incomes.");
+                throw;
             }
 
             return true;

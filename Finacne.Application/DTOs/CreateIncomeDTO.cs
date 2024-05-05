@@ -10,7 +10,7 @@ namespace Finance.Application.DTOs
 {
     public class CreateIncomeDto
     {
-        [Range(0,20000000)]
+        [Range(1,20000000)]
         public decimal Amount { get; set; }
 
         public DateOnly Date { get; set; }

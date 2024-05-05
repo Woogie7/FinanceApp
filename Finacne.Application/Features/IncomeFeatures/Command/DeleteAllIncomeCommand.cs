@@ -1,5 +1,4 @@
-﻿using Finance.Domain.Entities;
-using MediatR;
+﻿using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace Finance.Application.Features.IncomeFeatures.Command
 {
-    public record DeleteIncomeCommand(int id) : IRequest<bool>
+    public class DeleteAllIncomeCommand : IRequest<bool>
     {
+
     }
 }

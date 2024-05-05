@@ -33,6 +33,11 @@ namespace Finance.API.Controllers
 		{
 			var reqestIncome = await _mediator.Send(new GetAllIncomeQuery());
 
+			if(reqestIncome == null)
+			{
+				return NotFound();
+			}
+
             var income = reqestIncome.Select(income => _mapper.Map<IncomeDTO>(income));
 
             return Ok(income);
@@ -110,11 +115,17 @@ namespace Finance.API.Controllers
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> Delete(int id)
 		{
-            var requestIncome = await _mediator.Send(new DeleteIncomeCommand(id));
-
-            var detatilsIncomeDTO = _mapper.Map<DeteilsIncomeDTO>(requestIncome);
+            await _mediator.Send(new DeleteIncomeCommand(id));
 
             return NoContent();
         }
-	}
+
+        [HttpDelete("DeleteAllIncome")]
+        public async Task<IActionResult> DeleteAllIncome()
+        {
+            await _mediator.Send(new DeleteAllIncomeCommand());
+
+            return NoContent();
+        }
+    }
 }

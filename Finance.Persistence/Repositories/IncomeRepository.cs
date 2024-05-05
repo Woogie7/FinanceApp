@@ -41,17 +41,16 @@ namespace Finance.Persistence.Repositories
 
         public Task UpdateAsync(Income income)
         {
-            Income exist = _dbContext.Set<Income>().Find(income.Id);
-            _dbContext.Entry(exist).CurrentValues.SetValues(income);
+            var updatedIncome = _dbContext.Incomes.FirstOrDefaultAsync(i => i.Id == income.Id);
+            
             return Task.CompletedTask;
         }
 
-        public async Task<Income> DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
             var deletedIndome = _dbContext.Incomes.FirstOrDefault(i => i.Id == id);
             _dbContext.Incomes.Remove(deletedIndome);
             await _dbContext.SaveChangesAsync();
-            return deletedIndome;
         }
 
         public async Task<IEnumerable<Income>> GetAllAsync()
@@ -65,6 +64,13 @@ namespace Finance.Persistence.Repositories
         public async Task<Income> GetByIdAsync(int id)
         {
             return await _dbContext.Incomes.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task DeleteAllAsync()
+        {
+            var allIncomes = _dbContext.Incomes.ToList();
+            _dbContext.Incomes.RemoveRange(allIncomes);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

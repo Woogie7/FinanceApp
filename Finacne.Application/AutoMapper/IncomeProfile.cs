@@ -26,6 +26,7 @@ namespace Finance.Application.AutoMapper
                 .ForMember(crtI => crtI.Date, i => i.MapFrom(x => x.Date));
 
             CreateMap<Income, IncomeDTO>()
+                .ForMember(crtI => crtI.ID, i => i.MapFrom(x => x.Id))
                 .ForMember(crtI => crtI.Amount, i => i.MapFrom(x => x.Amount))
                 .ForMember(crtI => crtI.Currency, i => i.MapFrom(x => x.Currency.CurrencyName))
                 .ForMember(crtI => crtI.CategoryIncome, i => i.MapFrom(x => x.Category.CategoryIncomeName))
