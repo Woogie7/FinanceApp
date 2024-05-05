@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="Finance.View.IncomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Finance.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="Gray">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+
+            <DataGrid Margin="5" Grid.Row="1" ItemsSource="{Binding Incomes}" AutoGenerateColumns="False"
+                    SelectedItem="{Binding SelectedIncome, Mode=TwoWay}" DisplayMemberPath="DisplayMemberPath" SelectionUnit="FullRow" IsReadOnly="True"
+                      Background="White">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Сумма" FontSize="18" Width="auto" Binding="{Binding Amount}"/>
+                    <DataGridTextColumn Header="Валюта" FontSize="18" Width="auto" Binding="{Binding Currency}"/>
+                    <DataGridTextColumn Header="Дата" FontSize="18" Width="auto" Binding="{Binding Date}"/>
+                    <DataGridTextColumn Header="Категория" FontSize="18" Width="*" Binding="{Binding CategoryIncome}"/>
+            </DataGrid.Columns>
+            </DataGrid>
+
+
+        <Grid Grid.Column="1" Background="White" Margin="5">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10">
+
+                <TextBlock x:Name="Watermark" Text="Сумма" Foreground="Gray" Visibility="Visible"/>
+                <TextBox x:Name="Amount" Width="200"  Margin="5" Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock x:Name="Watermark2" Text="Валюта" Foreground="Gray" Visibility="Visible"/>
+                <ComboBox x:Name="CurrencyComboBox" Margin="5" ItemsSource="{Binding Currencies }" DisplayMemberPath="CurrencyName"  SelectedItem="{Binding SelectedCurrency, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock x:Name="Watermark3" Text="Дата" Foreground="Gray" Visibility="Visible"/>
+                <DatePicker x:Name="DateDatePicker" Margin="5" SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock x:Name="Watermark4" Text="Категория" Foreground="Gray" Visibility="Visible"/>
+                <ComboBox x:Name="CategoryComboBox" Margin="5" ItemsSource="{Binding Categories}" DisplayMemberPath="CategoryIncomeName" SelectedItem="{Binding SelectedCategory, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <Button Content="Сохранить" Margin="10" Command="{Binding SaveIncomeCommand}"/>
+                <Button Content="Удалить" Margin="10" Command="{Binding DeleteIncomeCommand}" CommandParameter="{Binding SelectedIncome}"/>
+                <Button Content="Удалить все доходы" Margin="10" Command="{Binding DeleteAllIncomesCommand}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
