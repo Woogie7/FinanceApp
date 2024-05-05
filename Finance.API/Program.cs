@@ -4,6 +4,7 @@ using Finance.Persistence.Repositories;
 using Finance.Application.Interface.Repositories;
 using Finance.Application;
 using Microsoft.EntityFrameworkCore;
+using Finance.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,7 @@ if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
 	app.UseSwaggerUI();
+	app.MigrateDbAsync();
 }
 
 app.UseCors(p=>

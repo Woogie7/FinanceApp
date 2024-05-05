@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finance.API", "Finance.API\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finance.Wpf", "Finance.WPF\Finance.Wpf.csproj", "{9541CEC2-229F-47D9-816B-1732CC8A8D13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finance.Domain", "Finance.Domain\Finance.Domain.csproj", "{6EE60798-E1E8-435E-ACFD-275A2813A9DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finance.Domain", "Finance.Domain\Finance.Domain.csproj", "{6EE60798-E1E8-435E-ACFD-275A2813A9DA}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{CE808018-4965-427A-9EED-1FB2C1AFE6BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{6EE60798-E1E8-435E-ACFD-275A2813A9DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EE60798-E1E8-435E-ACFD-275A2813A9DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EE60798-E1E8-435E-ACFD-275A2813A9DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE808018-4965-427A-9EED-1FB2C1AFE6BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE808018-4965-427A-9EED-1FB2C1AFE6BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE808018-4965-427A-9EED-1FB2C1AFE6BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE808018-4965-427A-9EED-1FB2C1AFE6BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

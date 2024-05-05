@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  finance.api:
+    image: ${DOCKER_REGISTRY-}financeapi
+    build:
+      context: .
+      dockerfile: Finance.API/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+  prodiucts.database:
+    image: postgres:latest
+    container_name: finance.database
+    environment:
+        - POSTGRES_DB=FinanceDb
+        - POSTGRES_USER=postgres    
+        - POSTGRES_PASSWORD=1234
+    volumes:
+        - ./.containers/finance-db:/var/lib/postgrsql/data
+    ports:
+        - "5432:5432"
