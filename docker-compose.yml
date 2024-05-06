@@ -2,7 +2,8 @@ version: '3.4'
 
 services:
   finance.api:
-    image: ${DOCKER_REGISTRY-}financeapi
+    image: ${DOCKER_REGISTRY-}woogie7/financeapi
+    container_name: finance.api 
     build:
       context: .
       dockerfile: Finance.API/Dockerfile
@@ -20,3 +21,13 @@ services:
         - ./.containers/finance-db:/var/lib/postgrsql/data
     ports:
         - "5432:5432"
+
+  finance.client:
+    image: ${DOCKER_REGISTRY-}woogie7/clientBlazor
+    container_name: clientBlazor
+    build:
+      context: .
+      dockerfile: Finance.Client/Dockerfile
+    ports:
+        - "8080:80"
+
