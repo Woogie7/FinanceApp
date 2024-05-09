@@ -7,8 +7,9 @@ namespace Finance.Persistence.Context
 	{
 		public DbSet<Income> Incomes { get; set; }
 		public DbSet<CategoryIncome> CategoryIncomes { get; set;}
-
 		public DbSet<Currency> Currencies { get; set; }
+
+        public DbSet<User> Users { get; set; }
 
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -47,7 +48,9 @@ namespace Finance.Persistence.Context
                 CategoryIncomeName = "Подарок",  // Валюта в евро
                 Incomes = new List<Income>()
             });
-           
+
+            modelBuilder.Entity<User>().HasData(
+            new User(new Guid(), "googleemail@gamil.com", "111", "Admin"));
         }
 
 	}

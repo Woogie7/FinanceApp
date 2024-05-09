@@ -10,7 +10,8 @@ services:
     ports:
       - "5000:5000"
       - "5001:5001"
-  prodiucts.database:
+
+  finance.database:
     image: postgres:latest
     container_name: finance.database
     environment:
@@ -18,16 +19,7 @@ services:
         - POSTGRES_USER=postgres    
         - POSTGRES_PASSWORD=1234
     volumes:
-        - ./.containers/finance-db:/var/lib/postgrsql/data
+        - ./.containers/finance-db:/var/lib/postgresql/data
     ports:
         - "5432:5432"
-
-  finance.client:
-    image: ${DOCKER_REGISTRY-}woogie7/clientBlazor
-    container_name: clientBlazor
-    build:
-      context: .
-      dockerfile: Finance.Client/Dockerfile
-    ports:
-        - "8080:80"
 

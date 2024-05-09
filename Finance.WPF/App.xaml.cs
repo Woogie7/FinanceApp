@@ -29,7 +29,7 @@ namespace Finance
 					service.AddSingleton<NavigationStore>();
                     //service.AddSingleton<IDataService<User>, UserDataServiсe>();
 
-                    service.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7266/") });
+                    service.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:5001/") });
 
                     service.AddSingleton<MainWindowViewModel>();
 

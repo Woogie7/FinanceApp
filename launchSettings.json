@@ -5,7 +5,6 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "finance.api": "StartDebugging",
-        "finance.client": "StartDebugging"
       }
     }
   }
