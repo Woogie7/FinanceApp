@@ -114,6 +114,38 @@ namespace Finance.Persistence.Migrations
                     b.ToTable("Incomes");
                 });
 
+            modelBuilder.Entity("Finance.Domain.Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ca98e207-094a-4efd-93a3-d6c4da82d6d9"),
+                            Email = "111",
+                            PasswordHash = "Admin",
+                            UserName = "googleemail@gamil.com"
+                        });
+                });
+
             modelBuilder.Entity("Finance.Domain.Entities.Income", b =>
                 {
                     b.HasOne("Finance.Domain.Entities.CategoryIncome", "Category")

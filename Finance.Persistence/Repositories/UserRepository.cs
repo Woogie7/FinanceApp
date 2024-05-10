@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Finance.Application.Interface.Repositories;
-using Finance.Domain.Entities;
+using Finance.Domain.Entities.Users;
 using Finance.Persistence.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,13 +20,18 @@ public class UserRepository : IUserRepository
         _dbContext = dbContext;
         _mapper = mapper;
     }
-    public Task Add(User user)
+    public async Task Add(User user)
     {
-        _dbContext.uS
+        await _dbContext.AddAsync(user);
+        await _dbContext.SaveChangesAsync();
     }
 
-    public Task<User> GetUserByEmail(string email)
+    public async Task<User> GetUserByEmail(string email)
     {
-        throw new NotImplementedException();
+        var user = await _dbContext.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(user => user.Email == email);
+
+        return user;
     }
 }

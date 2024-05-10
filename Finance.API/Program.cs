@@ -5,8 +5,15 @@ using Finance.Application.Interface.Repositories;
 using Finance.Application;
 using Microsoft.EntityFrameworkCore;
 using Finance.API.Data;
+using Finance.Application.Service;
+using Finance.Application.Interface;
+using Finance.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
+var conf = builder.Configuration;
+
+builder.Services.Configure<JWTOptions>(conf.GetSection(nameof(JWTOptions)));
+builder.Services.AddApiAuthentication(conf);
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
@@ -18,6 +25,13 @@ builder.Services.AddDbContext<FinanceDBContext>(options =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<UserService>();
+
+builder.Services.AddScoped<IJWTProvider, JWTProvider>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+
+
 builder.Services.AppApplication();
 
 var app = builder.Build();
@@ -37,12 +51,11 @@ app.UseCors(p=>
 
 app.UseHttpsRedirection();
 
-//app.UseExceptionHandlers();
+app.UseExceptionHandlers();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-
 
 app.Run();

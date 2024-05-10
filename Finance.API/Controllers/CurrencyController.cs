@@ -2,6 +2,7 @@
 using Finance.Application.DTOs;
 using Finance.Domain.Entities;
 using Finance.Persistence.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,7 @@ namespace GameStore.API.Controllers
 			_financeDBContext = financeDBContext;
 		}
 
+		[Authorize("AdminPolicy")]
 		[HttpGet]
 		public async Task<IActionResult> Get()
 		{

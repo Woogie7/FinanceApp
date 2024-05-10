@@ -1,9 +1,10 @@
 ﻿using Finance.Domain.Entities;
+using Finance.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace Finance.Persistence.Context
 {
-	public class FinanceDBContext(DbContextOptions<FinanceDBContext> dbContextOptions) : DbContext(dbContextOptions)
+    public class FinanceDBContext(DbContextOptions<FinanceDBContext> dbContextOptions) : DbContext(dbContextOptions)
 	{
 		public DbSet<Income> Incomes { get; set; }
 		public DbSet<CategoryIncome> CategoryIncomes { get; set;}
@@ -49,8 +50,14 @@ namespace Finance.Persistence.Context
                 Incomes = new List<Income>()
             });
 
-            modelBuilder.Entity<User>().HasData(
-            new User(new Guid(), "googleemail@gamil.com", "111", "Admin"));
+            modelBuilder.Entity<User>()
+                .HasKey(u => u.Id);
+
+            modelBuilder.Entity<User>()
+                        .HasOne(u => u.Role)
+                        .WithMany(u => u.Users)
+
+
         }
 
 	}
