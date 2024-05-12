@@ -114,7 +114,90 @@ namespace Finance.Persistence.Migrations
                     b.ToTable("Incomes");
                 });
 
-            modelBuilder.Entity("Finance.Domain.Entities.User", b =>
+            modelBuilder.Entity("Finance.Domain.Entities.Users.Permission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permission");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Read"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Create"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Update"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Delete"
+                        });
+                });
+
+            modelBuilder.Entity("Finance.Domain.Entities.Users.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "User"
+                        });
+                });
+
+            modelBuilder.Entity("Finance.Domain.Entities.Users.RolePermissions", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("RoleId", "PermissionId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.ToTable("RolePermissions");
+                });
+
+            modelBuilder.Entity("Finance.Domain.Entities.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -128,22 +211,18 @@ namespace Finance.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("RoleId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("ca98e207-094a-4efd-93a3-d6c4da82d6d9"),
-                            Email = "111",
-                            PasswordHash = "Admin",
-                            UserName = "googleemail@gamil.com"
-                        });
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Finance.Domain.Entities.Income", b =>
@@ -165,6 +244,32 @@ namespace Finance.Persistence.Migrations
                     b.Navigation("Currency");
                 });
 
+            modelBuilder.Entity("Finance.Domain.Entities.Users.RolePermissions", b =>
+                {
+                    b.HasOne("Finance.Domain.Entities.Users.Permission", null)
+                        .WithMany()
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Finance.Domain.Entities.Users.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Finance.Domain.Entities.Users.User", b =>
+                {
+                    b.HasOne("Finance.Domain.Entities.Users.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("Finance.Domain.Entities.CategoryIncome", b =>
                 {
                     b.Navigation("Incomes");
@@ -173,6 +278,11 @@ namespace Finance.Persistence.Migrations
             modelBuilder.Entity("Finance.Domain.Entities.Currency", b =>
                 {
                     b.Navigation("Incomes");
+                });
+
+            modelBuilder.Entity("Finance.Domain.Entities.Users.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,6 +8,8 @@ using Finance.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Finance.Domain.Model;
 using Finance.Domain.Entities;
+using Finance.Infrastructure.Authentication;
+using Finance.Domain.Enum;
 
 namespace Finance.API.Controllers
 {
@@ -28,6 +30,7 @@ namespace Finance.API.Controllers
 			_financeDBContext = financeDBContext;
 		}
 
+		[HasPermisiion(PermissionsEnum.Read)]
 		[HttpGet]
 		public async Task<IActionResult> Get()
 		{
@@ -78,7 +81,8 @@ namespace Finance.API.Controllers
             return Ok(incomeDTO);
         }
 
-		[HttpPost]
+        [HasPermisiion(PermissionsEnum.Create)]
+        [HttpPost]
 		public async Task<IActionResult> Post([FromBody]CreateIncomeDto newIncome)
 		{
 			var income = _mapper.Map<Income>(newIncome);

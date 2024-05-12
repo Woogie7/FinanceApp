@@ -1,4 +1,5 @@
-﻿using Finance.Application.Service;
+﻿using Finance.Application.DTOs;
+using Finance.Application.Service;
 using Finance.Domain.Entities.Users;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,17 +9,24 @@ namespace Finance.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        [HttpPost("Register")]
-        public async Task<IActionResult> Register(User user, UserService userService)
+        private readonly UserService userService;
+
+        public UserController(UserService userService)
         {
-            await userService.Register(user.UserName, user.Email, user.PasswordHash);
+            this.userService = userService;
+        }
+
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody] CreateUserDto newIncome)
+        {
+            await userService.Register(newIncome);
             return Ok();
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(User user, UserService userService)
+        public async Task<IActionResult> Login(UserDto user)
         {
-            var token = await userService.Login(user.Email, user.PasswordHash);
+            var token = await userService.Login(user);
 
             this.HttpContext.Response.Cookies.Append("tasty-cookes", token);
 

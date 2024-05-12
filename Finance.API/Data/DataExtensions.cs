@@ -1,16 +1,16 @@
 ﻿using Finance.API.Midleware;
-using Finance.Infrastructure;
+using Finance.Infrastructure.Authentication;
+using Finance.Infrastructure.Authentication.JWToken;
 using Finance.Persistence.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 namespace Finance.API.Data
 {
-	public static class DataExtensions
+    public static class DataExtensions
 	{
 		public static async Task MigrateDbAsync(this WebApplication app)
 		{
@@ -53,13 +53,10 @@ namespace Finance.API.Data
 					};
 				});
 
-			services.AddAuthorization(options =>
-			{
-				options.AddPolicy("AdminPolicy", policy =>
-				{
-					policy.Requirements.Add();
-				});
-			});
-		}
+			services.AddAuthorization();
+            services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+			services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+
+        }
 	}
 }

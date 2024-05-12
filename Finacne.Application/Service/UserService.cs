@@ -1,6 +1,8 @@
-﻿using Finance.Application.Interface;
+﻿using Finance.Application.DTOs;
+using Finance.Application.Interface;
 using Finance.Application.Interface.Repositories;
 using Finance.Domain.Entities;
+using Finance.Domain.Entities.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,20 +24,25 @@ namespace Finance.Application.Service
             _JWTProvider = jWTProvider;
         }
 
-        public async Task Register(string userName, string email, string password)
+        public async Task Register(CreateUserDto newUser)
         {
-            var hashedPassword = _hasher.GeneratePassword(password);
+            var hashedPassword = _hasher.GeneratePassword(newUser.PasswordHash);
 
-            var user = new User(Guid.NewGuid(),userName, email, hashedPassword);
+            var user = new CreateUserDto
+            { 
+                UserName = newUser.UserName,
+                Email = newUser.Email,
+                PasswordHash = hashedPassword
+            };
 
             await _userRepository.Add(user);
         }
 
-        public async Task<string> Login(string email, string password)
+        public async Task<string> Login(UserDto userResponse)
         {
-            var user = await _userRepository.GetUserByEmail(email);
+            var user = await _userRepository.GetUserByEmail(userResponse.Email);
 
-            var result = _hasher.IsVerify(password, user.PasswordHash);
+            var result = _hasher.IsVerify(userResponse.PasswordHash, user.PasswordHash);
 
             if (!result)
             {

@@ -1,4 +1,6 @@
-﻿using Finance.Domain.Entities.Users;
+﻿using Finance.Application.DTOs;
+using Finance.Domain.Entities.Users;
+using Finance.Domain.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,9 @@ namespace Finance.Application.Interface.Repositories
 {
     public interface IUserRepository
     {
-        Task Add(User user);
+        Task Add(CreateUserDto user);
         Task<User> GetUserByEmail(string email);
+
+        Task<HashSet<string>> GetUserPermissionsAsync(Guid userId);
     }
 }
