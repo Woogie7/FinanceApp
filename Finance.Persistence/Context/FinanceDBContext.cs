@@ -98,8 +98,6 @@ namespace Finance.Persistence.Context
             modelBuilder.Entity<Permission>().HasData(permissions);
 
             modelBuilder.ApplyConfiguration(new RolePermissionConfiguration(authOptions.Value));
-
-
         }
 
 	}

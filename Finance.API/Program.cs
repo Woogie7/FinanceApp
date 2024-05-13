@@ -23,7 +23,7 @@ builder.Services.AddApiAuthentication(conf);
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
-var connectionString = builder.Configuration.GetConnectionString("Icnome");
+var connectionString = builder.Configuration.GetConnectionString("DbFinance");
 builder.Services.AddDbContext<FinanceDBContext>(options =>
     options.UseNpgsql(connectionString));
 
@@ -58,8 +58,6 @@ app.UseCors(p=>
 );
 
 app.UseHttpsRedirection();
-
-app.UseExceptionHandlers();
 
 app.UseAuthentication();
 app.UseAuthorization();

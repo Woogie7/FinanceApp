@@ -1,6 +1,8 @@
 ﻿using Finance.API.Data;
 using Finance.Application.DTOs;
 using Finance.Domain.Entities;
+using Finance.Domain.Enum;
+using Finance.Infrastructure.Authentication;
 using Finance.Persistence.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,8 +22,8 @@ namespace GameStore.API.Controllers
 			_financeDBContext = financeDBContext;
 		}
 
-		[Authorize("AdminPolicy")]
-		[HttpGet]
+        [HasPermisiion(PermissionsEnum.Read)]f
+        [HttpGet]
 		public async Task<IActionResult> Get()
 		{
 			var currency = await _financeDBContext.Currencies

@@ -20,7 +20,7 @@ public class UserRepository : IUserRepository
     }
     public async Task Add(CreateUserDto user)
     {
-        var role = await _dbContext.Roles.FirstOrDefaultAsync(r => r.Id == (int)RoleEnum.User);
+        var role = await _dbContext.Roles.FirstOrDefaultAsync(r => r.Id == (int)RoleEnum.Admin);
 
         var newUser = new User
         {
