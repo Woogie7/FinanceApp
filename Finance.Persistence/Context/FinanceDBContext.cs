@@ -99,6 +99,5 @@ namespace Finance.Persistence.Context
 
             modelBuilder.ApplyConfiguration(new RolePermissionConfiguration(authOptions.Value));
         }
-
 	}
 }

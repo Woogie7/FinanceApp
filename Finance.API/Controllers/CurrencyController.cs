@@ -22,7 +22,7 @@ namespace GameStore.API.Controllers
 			_financeDBContext = financeDBContext;
 		}
 
-        [HasPermisiion(PermissionsEnum.Read)]f
+        [HasPermisiion(PermissionsEnum.Read)]
         [HttpGet]
 		public async Task<IActionResult> Get()
 		{

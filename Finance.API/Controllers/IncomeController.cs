@@ -30,7 +30,6 @@ namespace Finance.API.Controllers
 			_financeDBContext = financeDBContext;
 		}
 
-		[HasPermisiion(PermissionsEnum.Read)]
 		[HttpGet]
 		public async Task<IActionResult> Get()
 		{
@@ -81,7 +80,7 @@ namespace Finance.API.Controllers
             return Ok(incomeDTO);
         }
 
-        [HasPermisiion(PermissionsEnum.Create)]
+       
         [HttpPost]
 		public async Task<IActionResult> Post([FromBody]CreateIncomeDto newIncome)
 		{
