@@ -1,4 +1,5 @@
 ﻿using Finance.Application.DTOs;
+using Finance.Application.DTOs.Income;
 using Finance.Domain.Model;
 using Finance.Wpf.Service.Interface;
 using System;

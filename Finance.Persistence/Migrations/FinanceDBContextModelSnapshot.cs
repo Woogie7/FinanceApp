@@ -22,6 +22,100 @@ namespace Finance.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Finance.Domain.Entities.CategoryExpense", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CategoryExpenseName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CategoryExpenses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryExpenseName = "Еда"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryExpenseName = "Транспорт"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryExpenseName = "Одежда"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryExpenseName = "Развлечения"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryExpenseName = "Образование"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryExpenseName = "Здоровье"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryExpenseName = "КоммунальныеУслуги"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryExpenseName = "Кредиты"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryExpenseName = "ДомашниеЖивотные"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryExpenseName = "Путешествия"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CategoryExpenseName = "ЛичныеРасходы"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CategoryExpenseName = "Благотворительность"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CategoryExpenseName = "Абонементы"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CategoryExpenseName = "Подарок"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CategoryExpenseName = "Другое"
+                        });
+                });
+
             modelBuilder.Entity("Finance.Domain.Entities.CategoryIncome", b =>
                 {
                     b.Property<int>("Id")
@@ -47,7 +141,62 @@ namespace Finance.Persistence.Migrations
                         new
                         {
                             Id = 2,
-                            CategoryIncomeName = "Подарок"
+                            CategoryIncomeName = "Премия"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryIncomeName = "Подработка"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryIncomeName = "Дивиденды"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryIncomeName = "Проценты"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryIncomeName = "Подарки"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryIncomeName = "Продажа"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryIncomeName = "СдачаВАренду"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryIncomeName = "СоциальныеВыплаты"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryIncomeName = "Пенсия"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CategoryIncomeName = "Стипендия"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CategoryIncomeName = "ВозвратДолгов"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CategoryIncomeName = "ДругиеДоходы"
                         });
                 });
 
@@ -71,18 +220,47 @@ namespace Finance.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CurrencyName = "USD"
+                            CurrencyName = "RUB"
                         },
                         new
                         {
                             Id = 2,
-                            CurrencyName = "EUR"
+                            CurrencyName = "USD"
                         },
                         new
                         {
                             Id = 3,
-                            CurrencyName = "RUB"
+                            CurrencyName = "EUR"
                         });
+                });
+
+            modelBuilder.Entity("Finance.Domain.Entities.Expense", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("CategoryExpenseId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryExpenseId");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.ToTable("Expenses");
                 });
 
             modelBuilder.Entity("Finance.Domain.Entities.Income", b =>
@@ -252,6 +430,25 @@ namespace Finance.Persistence.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Finance.Domain.Entities.Expense", b =>
+                {
+                    b.HasOne("Finance.Domain.Entities.CategoryExpense", "Category")
+                        .WithMany("Expenses")
+                        .HasForeignKey("CategoryExpenseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Finance.Domain.Entities.Currency", "Currency")
+                        .WithMany("Expenses")
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Currency");
+                });
+
             modelBuilder.Entity("Finance.Domain.Entities.Income", b =>
                 {
                     b.HasOne("Finance.Domain.Entities.CategoryIncome", "Category")
@@ -297,6 +494,11 @@ namespace Finance.Persistence.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("Finance.Domain.Entities.CategoryExpense", b =>
+                {
+                    b.Navigation("Expenses");
+                });
+
             modelBuilder.Entity("Finance.Domain.Entities.CategoryIncome", b =>
                 {
                     b.Navigation("Incomes");
@@ -304,6 +506,8 @@ namespace Finance.Persistence.Migrations
 
             modelBuilder.Entity("Finance.Domain.Entities.Currency", b =>
                 {
+                    b.Navigation("Expenses");
+
                     b.Navigation("Incomes");
                 });
 

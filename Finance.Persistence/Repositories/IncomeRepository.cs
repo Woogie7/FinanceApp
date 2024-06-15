@@ -56,6 +56,7 @@ namespace Finance.Persistence.Repositories
         public async Task<IEnumerable<Income>> GetAllAsync()
         {
             return await _dbContext.Incomes
+                .AsNoTracking()
                 .Include(x => x.Category)
                 .Include(x => x.Currency)
                 .ToListAsync();

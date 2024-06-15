@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
 using Finance.Application.DTOs;
+using Finance.Application.DTOs.Income;
 using Finance.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Finance.Application.AutoMapper
 {

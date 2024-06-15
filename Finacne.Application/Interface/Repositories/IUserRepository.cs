@@ -1,4 +1,4 @@
-﻿using Finance.Application.DTOs;
+﻿using Finance.Application.DTOs.UserDto;
 using Finance.Domain.Entities.Users;
 using Finance.Domain.Enum;
 using System;

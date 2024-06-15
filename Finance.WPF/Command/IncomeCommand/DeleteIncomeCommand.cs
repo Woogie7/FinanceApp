@@ -1,4 +1,4 @@
-﻿using Finance.Application.DTOs;
+﻿using Finance.Application.DTOs.Income;
 using Finance.Core;
 using Finance.Domain.Entities;
 using Finance.ViewModel;

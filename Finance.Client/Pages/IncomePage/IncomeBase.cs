@@ -1,8 +1,8 @@
 ﻿using Finance.Client.Services.Interface;
 using Microsoft.AspNetCore.Components;
 using Finance.Domain.Entities;
-using Finance.Application.DTOs;
 using Radzen;
+using Finance.Application.DTOs.Income;
 
 namespace Finance.Client.Pages.IncomePage;
 

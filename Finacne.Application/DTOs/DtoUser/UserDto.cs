@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Finance.Application.DTOs
+namespace Finance.Application.DTOs.UserDto
 {
     public class UserDto
     {

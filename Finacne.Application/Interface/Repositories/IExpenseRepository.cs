@@ -11,7 +11,7 @@ namespace Finance.Application.Interface.Repositories
     {
         Task<Income> GetByIdAsync(int id);
         Task<IEnumerable<Expense>> GetAllAsync();
-        Task<Income> AddAsync(Income entity);
+        Task<Expense> AddAsync(Expense newExpense);
         Task UpdateAsync(Income entity);
         Task DeleteAsync(int id);
         Task DeleteAllAsync();

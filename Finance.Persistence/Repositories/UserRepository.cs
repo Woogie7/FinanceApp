@@ -4,8 +4,7 @@ using Finance.Domain.Entities.Users;
 using Finance.Domain.Enum;
 using Finance.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
-using Finance.Application.DTOs;
-
+using Finance.Application.DTOs.UserDto;
 
 namespace Finance.Persistence.Repositories;
 

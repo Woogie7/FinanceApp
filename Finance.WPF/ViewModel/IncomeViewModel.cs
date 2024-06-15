@@ -1,4 +1,4 @@
-﻿using Finance.Application.DTOs;
+﻿using Finance.Application.DTOs.Income;
 using Finance.Command.AsyncCommand;
 using Finance.Command.IncomeCommand;
 using Finance.Core;

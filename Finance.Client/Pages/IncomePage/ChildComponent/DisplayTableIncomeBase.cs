@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Finance.Domain.Entities;
-using Finance.Application.DTOs;
 using Finance.Client.Services;
 using Finance.Domain.Model;
+using Finance.Application.DTOs.Income;
 
 namespace Finance.Client.Pages.IncomePage.ChildComponent;
 

@@ -1,4 +1,4 @@
-﻿using Finance.Application.DTOs;
+﻿using Finance.Application.DTOs.UserDto;
 using Finance.Application.Service;
 using Finance.Domain.Entities.Users;
 using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,5 @@
 ﻿using Finance.Application.DTOs;
+using Finance.Application.DTOs.Income;
 using Finance.Client.Services.Interface;
 using Finance.Domain.Entities;
 using Finance.Domain.Model;
@@ -8,7 +9,7 @@ using System.Text.Json;
 
 namespace Finance.Client.Services
 {
-	public class IncomeService : IIncomeService
+    public class IncomeService : IIncomeService
 	{
 		private readonly HttpClient _httpClient;
 

@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Finance.Application.DTOs
+namespace Finance.Application.DTOs.Income
 {
     public class IncomeDTO
     {
-        public int ID {  get; set; }
+        public int ID { get; set; }
 
         public decimal Amount { get; set; }
 

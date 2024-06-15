@@ -1,4 +1,5 @@
 ﻿using Finance.Application.DTOs;
+using Finance.Application.DTOs.Income;
 using Finance.Domain.Entities;
 using Finance.Domain.Model;
 using System.Collections.Generic;

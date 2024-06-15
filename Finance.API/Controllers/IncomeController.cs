@@ -10,6 +10,7 @@ using Finance.Domain.Model;
 using Finance.Domain.Entities;
 using Finance.Infrastructure.Authentication;
 using Finance.Domain.Enum;
+using Finance.Application.DTOs.Income;
 
 namespace Finance.API.Controllers
 {
