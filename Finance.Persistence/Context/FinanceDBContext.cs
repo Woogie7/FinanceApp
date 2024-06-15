@@ -15,89 +15,22 @@ namespace Finance.Persistence.Context
 		public DbSet<Income> Incomes { get; set; }
 		public DbSet<CategoryIncome> CategoryIncomes { get; set;}
 		public DbSet<Currency> Currencies { get; set; }
-
+		public DbSet<Expense> Expenses { get; set; }
+		public DbSet<CategoryExpense> CategoryExpenses { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
 
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-            modelBuilder.Entity<Currency>().HasData(
-            new Currency
-            {
-                Id = 1,  // Предполагаем, что Entity имеет идентификатор
-                CurrencyName = "USD",  // Валюта в долларах США
-                Incomes = new List<Income>()  // Инициализация пустого списка
-            },
-            new Currency
-            {
-                Id = 2,
-                CurrencyName = "EUR",  // Валюта в евро
-                Incomes = new List<Income>()
-            },
-            new Currency
-            {
-                Id = 3,
-                CurrencyName = "RUB",  // Валюта в японских иенах
-                Incomes = new List<Income>()
-            }
-            );
-
-            modelBuilder.Entity<CategoryIncome>().HasData(
-            new CategoryIncome
-            {
-                Id = 1,  // Предполагаем, что Entity имеет идентификатор
-                CategoryIncomeName = "Зарплата",  // Валюта в долларах США
-                Incomes = new List<Income>()  // Инициализация пустого списка
-            },
-            new CategoryIncome
-            {
-                Id = 2,
-                CategoryIncomeName = "Подарок",  // Валюта в евро
-                Incomes = new List<Income>()
-            });
-
-            modelBuilder.Entity<User>()
-                .HasKey(u => u.Id);
-
-            modelBuilder.Entity<User>()
-                        .HasOne(u => u.Role)
-                        .WithMany(u => u.Users)
-                        .HasForeignKey(u => u.RoleId)
-                        .IsRequired();
-
-            modelBuilder.Entity<Role>().HasKey(u => u.Id);
-
-            modelBuilder.Entity<Role>()
-                .HasMany(r => r.Permissions)
-                .WithMany(r => r.Roles)
-                .UsingEntity<RolePermissions>(
-                    p => p.HasOne<Permission>().WithMany().HasForeignKey(p => p.PermissionId),
-                    r => r.HasOne<Role>().WithMany().HasForeignKey(r => r.RoleId));
-
-            var roles = Enum
-                .GetValues<RoleEnum>()
-                .Select(r => new Role
-                {
-                    Id = (int)r,
-                    Name = r.ToString()
-                });
-
-            modelBuilder.Entity<Role>().HasData(roles);
-
-            modelBuilder.Entity<Permission>().HasKey(u => u.Id);
-
-            var permissions = Enum
-                .GetValues<PermissionsEnum>()
-                .Select(r => new Permission
-                {
-                    Id = (int)r,
-                    Name = r.ToString()
-                });
-
-            modelBuilder.Entity<Permission>().HasData(permissions);
-
             modelBuilder.ApplyConfiguration(new RolePermissionConfiguration(authOptions.Value));
+            modelBuilder.ApplyConfiguration(new CategoryExpenseConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryIncomeConfiguration());
+            modelBuilder.ApplyConfiguration(new CurrencyConfiguration());
+            modelBuilder.ApplyConfiguration(new PermissionConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new ExpenseConfiguration());
         }
 	}
 }
