@@ -3,6 +3,7 @@ using Finance.Application.Interface;
 using Finance.Application.Interface.Repositories;
 using Finance.Domain.Entities;
 using Finance.Domain.Entities.Users;
+using Finance.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,11 +43,16 @@ namespace Finance.Application.Service
         {
             var user = await _userRepository.GetUserByEmail(userResponse.Email);
 
+            if (user == null)
+            {
+                throw new UserNotFoundException(userResponse.Email);
+            }
+
             var result = _hasher.IsVerify(userResponse.PasswordHash, user.PasswordHash);
 
             if (!result)
             {
-                throw new Exception("Faild to login");
+                throw new InvalidPasswordException(user.Email, user.PasswordHash);
             }
 
             var token = _JWTProvider.GenerateToken(user);
