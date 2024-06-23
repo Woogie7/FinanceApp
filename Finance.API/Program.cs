@@ -11,6 +11,7 @@ using Finance.Infrastructure;
 using Finance.Infrastructure.Authentication;
 using Finance.Infrastructure.Authentication.JWToken;
 using Microsoft.AspNetCore.Authorization;
+using Finance.API.Midleware;
 
 var builder = WebApplication.CreateBuilder(args);
 var conf = builder.Configuration;

@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Finance.Domain.Exceptions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
+using System.Net.Http;
 using System.Text.Json;
 
 namespace Finance.API.Midleware;
@@ -24,15 +27,23 @@ public class ClobalExceptionHandlerMidleware
         {
             await _next(context);
         }
+        catch (UserNotFoundException ex)
+        {
+            _logger.LogError($"User not found: {ex}");
+            await HandleExceptionAsync(context, HttpStatusCode.NotFound, ex.Message);
+        }
+        catch (InvalidPasswordException ex)
+        {
+            _logger.LogError($"Invalid password: {ex}");
+            await HandleExceptionAsync(context, HttpStatusCode.BadRequest, ex.Message);
+        }
         catch (Exception exception)
         {
-            HandleExceptionAsync(exception, context);
+            HandleExceptionAsync(context, HttpStatusCode.InternalServerError, "Internal Server Error.");
         }
     }
-    private async Task HandleExceptionAsync(Exception exception, HttpContext context)
+    private async Task HandleExceptionAsync(HttpContext context, HttpStatusCode statusCode, string message)
     {
-        _logger.LogError(exception, exception.Message);
-
         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
         ProblemDetails problem = new()

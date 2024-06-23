@@ -1,6 +1,7 @@
 ﻿using Finance.Application.DTOs.UserDto;
 using Finance.Application.Service;
 using Finance.Domain.Entities.Users;
+using Finance.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Finance.API.Controllers
@@ -26,11 +27,24 @@ namespace Finance.API.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login(UserDto user)
         {
-            var token = await userService.Login(user);
-
-            this.HttpContext.Response.Cookies.Append("tasty-cookes", token);
-
-            return Ok();
+            try
+            {
+                var token = await userService.Login(user);
+                this.HttpContext.Response.Cookies.Append("tasty-cookes", token);
+                return Ok(token);
+            }
+            catch (UserNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InvalidPasswordException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred.", detail = ex.Message });
+            }
         }
     }
 }
