@@ -1,5 +1,8 @@
-﻿using Finance.API.Data;
+﻿using AutoMapper;
+using Finance.API.Data;
 using Finance.Application.DTOs;
+using Finance.Application.DTOs.DtoCurrency;
+using Finance.Application.DTOs.DtoExpense;
 using Finance.Domain.Entities;
 using Finance.Domain.Enum;
 using Finance.Infrastructure.Authentication;
@@ -16,13 +19,15 @@ namespace GameStore.API.Controllers
 	public class CurrencyController : ControllerBase
 	{
 		private readonly FinanceDBContext _financeDBContext;
+        private readonly IMapper _mapper;
 
-		public CurrencyController(FinanceDBContext financeDBContext)
-		{
-			_financeDBContext = financeDBContext;
-		}
+        public CurrencyController(FinanceDBContext financeDBContext, IMapper mapper)
+        {
+            _financeDBContext = financeDBContext;
+            _mapper = mapper;
+        }
 
-        [HasPermisiion(PermissionsEnum.Read)]
+
         [HttpGet]
 		public async Task<IActionResult> Get()
 		{
@@ -30,9 +35,12 @@ namespace GameStore.API.Controllers
 				.AsNoTracking()
 				.ToListAsync();
 
-			return Ok(currency);
+            var currencyDtos = currency.Select(currenc => _mapper.Map<CurrencyDto>(currenc));
+
+            return Ok(currencyDtos);
 		}
 
+        [HasPermisiion(PermissionsEnum.Read)]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Currency currency)
         {

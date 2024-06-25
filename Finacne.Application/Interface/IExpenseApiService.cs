@@ -13,5 +13,6 @@ namespace Finance.Application.Interface
     public interface IExpenseApiService
     {
         Task<IEnumerable<ExpenseDto>> GetExpenseAsync();
+        Task<CreateExpenseDto> AddExpenseAsync(CreateExpenseDto newExpense);
     }
 }

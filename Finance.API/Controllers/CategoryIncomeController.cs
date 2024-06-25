@@ -1,4 +1,7 @@
-﻿using Finance.API.Data;
+﻿using AutoMapper;
+using Finance.API.Data;
+using Finance.Application.DTOs.DtoCategory;
+using Finance.Application.DTOs.DtoExpense;
 using Finance.Persistence.Context;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,18 +14,22 @@ namespace Finance.API.Controllers
 	public class CategoryIncomeController : ControllerBase
 	{
 		private readonly FinanceDBContext _financeDBContext;
+        private readonly IMapper _mapper;
 
-		public CategoryIncomeController(FinanceDBContext financeDBContext)
-		{
-			_financeDBContext = financeDBContext;
-		}
+        public CategoryIncomeController(FinanceDBContext financeDBContext, IMapper mapper)
+        {
+            _financeDBContext = financeDBContext;
+            _mapper = mapper;
+        }
 
-		[HttpGet]
+        [HttpGet]
 		public async Task<IActionResult> Get()
 		{
-			var currency = await _financeDBContext.CategoryIncomes.ToListAsync();
+			var category = await _financeDBContext.CategoryIncomes.AsNoTracking().ToListAsync();
 
-			return Ok(currency);
-		}
+            var categoryIncoemDto = category.Select(categor => _mapper.Map<CategoryIncomeDto>(categor));
+
+            return Ok(categoryIncoemDto);
+        }
 	}
 }
