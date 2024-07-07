@@ -97,7 +97,7 @@ namespace Finance.API.Controllers
 		//{
 		//	var income = await _financeDBContext.Incomes.FindAsync(id);
 
-		//	if(income != null)
+		//	if (income != null)
 		//	{
 		//		income.Amount = updateIncome.Amount;
 		//		income.Date = updateIncome.Date;
