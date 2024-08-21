@@ -28,6 +28,8 @@ var connectionString = builder.Configuration.GetConnectionString("DbFinance");
 builder.Services.AddDbContext<FinanceDBContext>(options =>
     options.UseNpgsql(connectionString));
 
+builder.Services.AddScoped<ICacheService, CacheService>();
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();

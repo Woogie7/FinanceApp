@@ -1,4 +1,5 @@
 ﻿using Finance.Application.DTOs;
+using Finance.Application.Interface;
 using Finance.Application.Interface.Repositories;
 using Finance.Domain.Entities;
 using Finance.Persistence.Context;
@@ -14,9 +15,11 @@ namespace Finance.Persistence.Repositories
     public class IncomeRepository : IIncomeRepository
     {
         private readonly FinanceDBContext _dbContext;
-        public IncomeRepository(FinanceDBContext dbContext)
+        private readonly ICacheService _cacheService;
+        public IncomeRepository(FinanceDBContext dbContext, ICacheService cacheService)
         {
             _dbContext = dbContext;
+            _cacheService = cacheService;
         }
         public async Task<Income> AddAsync(Income newIncome)
         {
@@ -29,6 +32,10 @@ namespace Finance.Persistence.Repositories
                 newIncome.Category = category;
 
                 await _dbContext.Incomes.AddAsync(newIncome);
+
+                var experetyTime = DateTimeOffset.Now.AddSeconds(10);
+                _cacheService.SetData($"income{newIncome.Id}", newIncome, experetyTime);
+
                 await _dbContext.SaveChangesAsync();
                 return newIncome;
             }
@@ -55,11 +62,21 @@ namespace Finance.Persistence.Repositories
 
         public async Task<IEnumerable<Income>> GetAllAsync()
         {
-            return await _dbContext.Incomes
+            var cacheData = _cacheService.GetData<IEnumerable<Income>>("incomes");
+
+            if(cacheData != null)
+                return cacheData;
+
+            cacheData = await _dbContext.Incomes
                 .AsNoTracking()
                 .Include(x => x.Category)
                 .Include(x => x.Currency)
                 .ToListAsync();
+
+            var experetyTime = DateTimeOffset.Now.AddSeconds(60);
+            var isSuccses = _cacheService.SetData($"incomes", cacheData, experetyTime);
+
+            return cacheData;
         }
 
         public async Task<Income> GetByIdAsync(int id)

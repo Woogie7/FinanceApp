@@ -4,14 +4,14 @@ namespace Finance.Domain.Entities
 {
     public class Income : Entity
     {
-        public decimal Amount { get; set; } //Количество
+        public decimal Amount { get; set; }
 
-        public DateOnly Date { get; set; }// Дата
+        public DateOnly Date { get; set; }
 
         public int CategoryIncomeId { get; set; }
-        public CategoryIncome? Category { get; set; }//Категория
+        public CategoryIncome? Category { get; set; }
 
         public int CurrencyId { get; set; }
-        public Currency? Currency { get; set; } //Валюта
+        public Currency? Currency { get; set; } 
     }
 }
