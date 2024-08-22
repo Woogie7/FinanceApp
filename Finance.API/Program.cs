@@ -28,6 +28,9 @@ var connectionString = builder.Configuration.GetConnectionString("DbFinance");
 builder.Services.AddDbContext<FinanceDBContext>(options =>
     options.UseNpgsql(connectionString));
 
+builder.Services.AddStackExchangeRedisCache(redisOptions =>
+	redisOptions.Configuration = builder.Configuration.GetConnectionString("Cache"));
+
 builder.Services.AddScoped<ICacheService, CacheService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

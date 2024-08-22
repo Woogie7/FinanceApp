@@ -17,9 +17,9 @@ namespace Finance.Application.Service
             _cacheDb = redis.GetDatabase();
         }
 
-        public T GetData<T>(string key)
+        public async Task<T> GetAsync<T>(string key)
         {
-           var value = _cacheDb.StringGet(key);
+           var value = await _cacheDb.StringGetAsync(key);
             if (!string.IsNullOrEmpty(value))
             {
                 var options = new JsonSerializerOptions
@@ -27,16 +27,28 @@ namespace Finance.Application.Service
                     ReferenceHandler = ReferenceHandler.Preserve,
                     WriteIndented = true
                 };
+
                 return JsonSerializer.Deserialize<T>(value, options);
             }
-
-
             return default;
         }
 
-        public object RemoveData(string key)
+        public async Task<T> GetAsync<T>(string key, Func<Task<T>> factory, DateTimeOffset expirationTime)
         {
-            var exist = _cacheDb.KeyExists(key);
+            var cachedData = await GetAsync<T>(key);
+            if (cachedData != null) 
+                return cachedData;
+
+            cachedData = await factory();
+
+            await SetAsync<T>(key, cachedData, expirationTime);
+
+            return cachedData;
+        }
+
+        public async Task<bool> RemoveAsync(string key)
+        {
+            var exist = await _cacheDb.KeyExistsAsync(key);
 
             if (exist)
                 return _cacheDb.KeyDelete(key);
@@ -44,7 +56,7 @@ namespace Finance.Application.Service
             return false;
         }
 
-        public bool SetData<T>(string key, T value, DateTimeOffset timeOfDeath)
+        public async Task<bool> SetAsync<T>(string key, T value, DateTimeOffset timeOfDeath)
         {
             var experetyTime = timeOfDeath.DateTime.Subtract(DateTime.Now);
 
@@ -54,7 +66,7 @@ namespace Finance.Application.Service
                 WriteIndented = true
             };
 
-            return _cacheDb.StringSet(key, JsonSerializer.Serialize<T>(value, options), experetyTime);
+            return await _cacheDb.StringSetAsync(key, JsonSerializer.Serialize<T>(value, options), experetyTime);
         }
     }
 }

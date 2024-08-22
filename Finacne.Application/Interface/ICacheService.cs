@@ -2,7 +2,8 @@
 
 public interface ICacheService
 {
-    T GetData<T>(string key);
-    bool SetData<T>(string key, T value, DateTimeOffset timeOfDeath);
-    object RemoveData(string key);
+    Task<T> GetAsync<T>(string key);
+    Task<T> GetAsync<T>(string key, Func<Task<T>> fetchData, DateTimeOffset expirationTime);
+    Task<bool> SetAsync<T>(string key, T value, DateTimeOffset timeOfDeath);
+    Task<bool> RemoveAsync(string key);
 }

@@ -34,7 +34,7 @@ namespace Finance.Persistence.Repositories
                 await _dbContext.Incomes.AddAsync(newIncome);
 
                 var experetyTime = DateTimeOffset.Now.AddSeconds(10);
-                _cacheService.SetData($"income{newIncome.Id}", newIncome, experetyTime);
+                await _cacheService.SetAsync($"income{newIncome.Id}", newIncome, experetyTime);
 
                 await _dbContext.SaveChangesAsync();
                 return newIncome;
@@ -56,32 +56,44 @@ namespace Finance.Persistence.Repositories
         public async Task DeleteAsync(int id)
         {
             var deletedIndome = _dbContext.Incomes.FirstOrDefault(i => i.Id == id);
+            await _cacheService.RemoveAsync($"income{id}");
             _dbContext.Incomes.Remove(deletedIndome);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Income>> GetAllAsync()
         {
-            var cacheData = _cacheService.GetData<IEnumerable<Income>>("incomes");
+            return await _cacheService.GetAsync<IEnumerable<Income>>(
+                $"incomes",
+                async () =>
+                {
+                    IEnumerable<Income> incomes = await _dbContext.Incomes
+                        .AsNoTracking()
+                        .Include(x => x.Category)
+                        .Include(x => x.Currency)
+                        .ToListAsync();
 
-            if(cacheData != null)
-                return cacheData;
-
-            cacheData = await _dbContext.Incomes
-                .AsNoTracking()
-                .Include(x => x.Category)
-                .Include(x => x.Currency)
-                .ToListAsync();
-
-            var experetyTime = DateTimeOffset.Now.AddSeconds(60);
-            var isSuccses = _cacheService.SetData($"incomes", cacheData, experetyTime);
-
-            return cacheData;
+                    return incomes;
+                },
+                DateTimeOffset.Now.AddSeconds(60)
+                );
         }
 
         public async Task<Income> GetByIdAsync(int id)
         {
-            return await _dbContext.Incomes.FirstOrDefaultAsync(x => x.Id == id);
+            return await _cacheService.GetAsync<Income>(
+                $"income{id}",
+                async () =>
+                {
+                    Income income = await _dbContext.Incomes
+                        .Include(i => i.Currency)
+                        .Include(i => i.Category)
+                        .FirstOrDefaultAsync(x => x.Id == id);
+
+                    return income;
+                },
+                DateTimeOffset.Now.AddSeconds(20)
+                );
         }
 
         public async Task DeleteAllAsync()
