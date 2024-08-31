@@ -4,8 +4,6 @@ using Finance.Application.Features.IncomeFeatures.Queries;
 using Finance.Application.Features.IncomeFeatures.Command;
 using Finance.Application.DTOs;
 using AutoMapper;
-using Finance.Persistence.Context;
-using Microsoft.EntityFrameworkCore;
 using Finance.Domain.Model;
 using Finance.Domain.Entities;
 using Finance.Application.DTOs.Income;
@@ -19,14 +17,12 @@ namespace Finance.API.Controllers
 		private readonly IMediator _mediator;
 		private readonly IMapper _mapper;
 		private readonly ILogger<IncomeController> _logger;
-		private readonly FinanceDBContext _financeDBContext;
 
-		public IncomeController(IMediator mediator, IMapper mapper, ILogger<IncomeController> logger, FinanceDBContext financeDBContext)
+		public IncomeController(IMediator mediator, IMapper mapper, ILogger<IncomeController> logger)
 		{
 			_mediator = mediator;
 			_mapper = mapper;
 			_logger = logger;
-			_financeDBContext = financeDBContext;
 		}
 
 		[HttpGet]

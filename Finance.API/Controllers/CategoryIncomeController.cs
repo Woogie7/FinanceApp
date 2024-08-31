@@ -13,19 +13,19 @@ namespace Finance.API.Controllers
 	[ApiController]
 	public class CategoryIncomeController : ControllerBase
 	{
-		private readonly FinanceDBContext _financeDBContext;
         private readonly IMapper _mapper;
+        private readonly FinanceDBContext _financeDBContext;
 
-        public CategoryIncomeController(FinanceDBContext financeDBContext, IMapper mapper)
+        public CategoryIncomeController(IMapper mapper, FinanceDBContext financeDBContext)
         {
-            _financeDBContext = financeDBContext;
             _mapper = mapper;
+            _financeDBContext = financeDBContext;
         }
 
         [HttpGet]
 		public async Task<IActionResult> Get()
 		{
-			var category = await _financeDBContext.CategoryIncomes.AsNoTracking().ToListAsync();
+            var category = await _financeDBContext.CategoryIncomes.AsNoTracking().ToListAsync();
 
             var categoryIncoemDto = category.Select(categor => _mapper.Map<CategoryIncomeDto>(categor));
 

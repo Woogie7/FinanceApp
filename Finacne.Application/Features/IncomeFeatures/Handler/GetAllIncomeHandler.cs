@@ -23,15 +23,15 @@ public class GetAllIncomeHandler : IRequestHandler<GetAllIncomeQuery, IEnumerabl
         {
             _logger.LogInformation("Start get all incomes");
 
-            var income = await _incomeRepository.GetAllAsync();
+            var incomes = await _incomeRepository.GetAllAsync();
 
-            _logger.LogInformation("Succeseful");
+            _logger.LogInformation($"Successfully retrieved {incomes.Count()} incomes");
 
-            return income;
+            return incomes;
         }
         catch (Exception ex)
         {
-            _logger.LogInformation($"Not Found {ex.Message}");
+            _logger.LogError(ex, "Failed to get all incomes");
             return null;
         }
     }

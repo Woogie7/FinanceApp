@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Finance.Application.DTOs;
 using Finance.Application.DTOs.DtoCurrency;
 using Finance.Domain.Entities;
 using System;
@@ -15,6 +16,12 @@ namespace Finance.Application.AutoMapper
             CreateMap<Currency, CurrencyDto>()
                    .ForMember(crtI => crtI.Id, i => i.MapFrom(x => x.Id))
                    .ForMember(crtI => crtI.CurrencyName, i => i.MapFrom(x => x.CurrencyName));
+
+            CreateMap<CreateCurrencyDto, Currency>()
+                .ForMember(crtI => crtI.CurrencyName, i => i.MapFrom(x => x.CurrencyName));
+
+            CreateMap<Currency, CreateCurrencyDto>()
+                .ForMember(crtI => crtI.CurrencyName, i => i.MapFrom(x => x.CurrencyName));
         }
        
     }

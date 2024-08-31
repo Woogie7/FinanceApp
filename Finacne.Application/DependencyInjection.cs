@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Finance.Application.Behavior;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace Finance.Application
         public static IServiceCollection AppApplication(this IServiceCollection service)
         {
             service.AddMediatR(typeof(DependencyInjection).Assembly);
+            service.AddTransient(typeof(IPipelineBehavior<,>), typeof(CacheInvalidationPipelineBehavior<,>));
+            
             return service;
         }
     }

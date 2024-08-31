@@ -1,16 +1,20 @@
 ﻿using AutoMapper;
+using Finance.API.Controllers;
 using Finance.API.Data;
 using Finance.Application.DTOs;
 using Finance.Application.DTOs.DtoCurrency;
 using Finance.Application.DTOs.DtoExpense;
+using Finance.Application.DTOs.Income;
+using Finance.Application.Features.CurrencyFeatures.Command;
+using Finance.Application.Features.CurrencyFeatures.Queries;
+using Finance.Application.Features.IncomeFeatures.Queries;
 using Finance.Domain.Entities;
 using Finance.Domain.Enum;
 using Finance.Infrastructure.Authentication;
-using Finance.Persistence.Context;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.API.Controllers
 {
@@ -18,40 +22,44 @@ namespace GameStore.API.Controllers
 	[ApiController]
 	public class CurrencyController : ControllerBase
 	{
-		private readonly FinanceDBContext _financeDBContext;
+        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ILogger<CurrencyController> _logger;
 
-        public CurrencyController(FinanceDBContext financeDBContext, IMapper mapper)
+        public CurrencyController(IMapper mapper, ILogger<CurrencyController> logger, IMediator mediator)
         {
-            _financeDBContext = financeDBContext;
             _mapper = mapper;
+            _logger = logger;
+            _mediator = mediator;
         }
 
 
         [HttpGet]
 		public async Task<IActionResult> Get()
 		{
-			var currency = await _financeDBContext.Currencies
-				.AsNoTracking()
-				.ToListAsync();
+            var reqestCurrency = await _mediator.Send(new GetAllCurrencyQuery());
 
-            var currencyDtos = currency.Select(currenc => _mapper.Map<CurrencyDto>(currenc));
+            if (reqestCurrency == null)
+            {
+                return NotFound();
+            }
 
-            return Ok(currencyDtos);
+            var currency = reqestCurrency.Select(curency => _mapper.Map<CurrencyDto>(curency));
+
+            return Ok(currency);
 		}
 
-        [HasPermisiion(PermissionsEnum.Read)]
+        //[HasPermisiion(PermissionsEnum.Read)]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Currency currency)
+        public async Task<IActionResult> Post([FromBody] CreateCurrencyDto newCurrency)
         {
-            if(currency == null)
-			{
-				_financeDBContext.AddAsync(currency);
-				_financeDBContext.SaveChanges();
-				return Ok();
-			}
+            var currency = _mapper.Map<Currency>(newCurrency);
 
-            return BadRequest();
+            var requestCurrency = await _mediator.Send(new CreateCurrencyCommand(currency));
+
+            var currencyDTO = _mapper.Map<CurrencyDto>(requestCurrency);
+
+            return Ok(currencyDTO);
         }
     }
 }

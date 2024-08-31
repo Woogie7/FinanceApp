@@ -6,12 +6,13 @@ using Finance.Application;
 using Microsoft.EntityFrameworkCore;
 using Finance.API.Data;
 using Finance.Application.Service;
-using Finance.Application.Interface;
 using Finance.Infrastructure;
 using Finance.Infrastructure.Authentication;
 using Finance.Infrastructure.Authentication.JWToken;
 using Microsoft.AspNetCore.Authorization;
 using Finance.API.Midleware;
+using Finance.Application.Interface.Authentication;
+using Finance.Application.Interface.Cache;
 
 var builder = WebApplication.CreateBuilder(args);
 var conf = builder.Configuration;
@@ -38,6 +39,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
 builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICurrencyRepository, CurrencyRepository>();
 
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();

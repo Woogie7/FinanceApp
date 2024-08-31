@@ -1,5 +1,5 @@
 ﻿using Finance.Application.DTOs.UserDto;
-using Finance.Application.Interface;
+using Finance.Application.Interface.Authentication;
 using Finance.Application.Interface.Repositories;
 using Finance.Domain.Entities;
 using Finance.Domain.Entities.Users;

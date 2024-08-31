@@ -1,4 +1,4 @@
-﻿using Finance.Application.Interface;
+﻿using Finance.Application.Interface.Cache;
 using Microsoft.Extensions.Configuration;
 using StackExchange.Redis;
 using System.Text.Json;

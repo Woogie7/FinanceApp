@@ -1,5 +1,5 @@
 ﻿using Finance.Application.DTOs;
-using Finance.Application.Interface;
+using Finance.Application.Interface.Cache;
 using Finance.Application.Interface.Repositories;
 using Finance.Domain.Entities;
 using Finance.Persistence.Context;
@@ -33,7 +33,7 @@ namespace Finance.Persistence.Repositories
 
                 await _dbContext.Incomes.AddAsync(newIncome);
 
-                var experetyTime = DateTimeOffset.Now.AddSeconds(10);
+                var experetyTime = DateTimeOffset.Now.AddSeconds(60);
                 await _cacheService.SetAsync($"income{newIncome.Id}", newIncome, experetyTime);
 
                 await _dbContext.SaveChangesAsync();
@@ -46,11 +46,28 @@ namespace Finance.Persistence.Repositories
             }
         }
 
-        public Task UpdateAsync(Income income)
+        public async Task UpdateAsync(Income income)
         {
-            var updatedIncome = _dbContext.Incomes.FirstOrDefaultAsync(i => i.Id == income.Id);
-            
-            return Task.CompletedTask;
+            var existingIncome = await _dbContext.Incomes.FirstOrDefaultAsync(i => i.Id == income.Id);
+
+            if (existingIncome == null)
+            {
+                return;
+            }
+
+            existingIncome.Amount = income.Amount;
+            existingIncome.Currency = income.Currency;
+            existingIncome.Date = income.Date;
+            existingIncome.CategoryIncomeId = income.CategoryIncomeId;
+            existingIncome.CurrencyId = income.CurrencyId;
+            existingIncome.Category = income.Category;
+
+            await _dbContext.SaveChangesAsync();
+
+            var cacheKey = $"income{income.Id}";
+            await _cacheService.SetAsync(cacheKey, existingIncome, DateTimeOffset.Now.AddSeconds(60));
+
+            await _cacheService.RemoveAsync("incomes");
         }
 
         public async Task DeleteAsync(int id)
