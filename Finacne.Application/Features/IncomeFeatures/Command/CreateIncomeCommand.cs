@@ -13,7 +13,7 @@ namespace Finance.Application.Features.IncomeFeatures.Command
     {
         public IEnumerable<string> GetCacheKeysToInvalidate()
         {
-            return new List<string> { "incomes" };
+            return new List<string> { "incomes", $"incomes:userid-{newIncome.UserId}" };
         }
     }
 }

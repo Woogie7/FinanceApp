@@ -20,8 +20,20 @@ namespace Finance.API.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] CreateUserDto newIncome)
         {
-            await userService.Register(newIncome);
-            return Ok();
+            try
+            {
+                await userService.Register(newIncome);
+                return Ok();
+            }
+            catch (UserAlreadyExistsException ex)
+            { 
+
+                return Conflict(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred.", detail = ex.Message });
+            }
         }
 
         [HttpPost("Login")]

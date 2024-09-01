@@ -28,7 +28,8 @@ public class UserRepository : IUserRepository
             PasswordHash = user.PasswordHash,
             Role = role,
             UserName = user.UserName,
-            RoleId = role.Id
+            RoleId = role.Id,
+            Balance = 0
         };
 
         await _dbContext.AddAsync(newUser);

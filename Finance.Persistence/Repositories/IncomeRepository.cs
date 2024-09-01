@@ -2,6 +2,7 @@
 using Finance.Application.Interface.Cache;
 using Finance.Application.Interface.Repositories;
 using Finance.Domain.Entities;
+using Finance.Domain.Entities.Users;
 using Finance.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -27,9 +28,11 @@ namespace Finance.Persistence.Repositories
                 {
                     var category = await _dbContext.CategoryIncomes.FirstOrDefaultAsync(c => c.Id == newIncome.CategoryIncomeId);
                     var currency = await _dbContext.Currencies.FirstOrDefaultAsync(c => c.Id == newIncome.CurrencyId);
+                    var user = await _dbContext.Users.FirstOrDefaultAsync(c => c.Id == newIncome.UserId);
 
                     newIncome.Currency = currency;
                     newIncome.Category = category;
+                    newIncome.User = user;
 
                     await _dbContext.Incomes.AddAsync(newIncome);
 
@@ -118,6 +121,25 @@ namespace Finance.Persistence.Repositories
             var allIncomes = _dbContext.Incomes.ToList();
             _dbContext.Incomes.RemoveRange(allIncomes);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Income>> GetIncomeByUserIdAsync(Guid userId)
+        {
+            return await _cacheService.GetAsync<IEnumerable<Income>>(
+                $"incomes:userid-{userId}",
+                async () =>
+                {
+                    IEnumerable<Income> income = await _dbContext.Incomes
+                        .Include(i => i.Currency)
+                        .Include(i => i.Category)
+                        .Include(i => i.User)
+                         .Where(i => i.UserId == userId)
+                        .ToListAsync();
+
+                    return income;
+                },
+                DateTimeOffset.Now.AddMinutes(10)
+                );
         }
     }
 }

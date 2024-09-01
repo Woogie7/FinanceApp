@@ -27,6 +27,12 @@ namespace Finance.Application.Service
 
         public async Task Register(CreateUserDto newUser)
         {
+            var existingUser = await _userRepository.GetUserByEmail(newUser.Email);
+            if (existingUser != null)
+            {
+                throw new UserAlreadyExistsException(newUser.Email);
+            }
+
             var hashedPassword = _hasher.GeneratePassword(newUser.PasswordHash);
 
             var user = new CreateUserDto

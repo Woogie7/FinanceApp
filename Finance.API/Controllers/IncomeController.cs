@@ -31,7 +31,9 @@ namespace Finance.API.Controllers
         [HttpGet]
 		public async Task<IActionResult> Get()
 		{
-			var reqestIncome = await _mediator.Send(new GetAllIncomeQuery());
+            var userId = User.FindFirst("userId")?.Value;
+
+            var reqestIncome = await _mediator.Send(new GetAllIncomeQuery(new Guid(userId)));
 
 			if(reqestIncome == null)
 			{
@@ -46,24 +48,25 @@ namespace Finance.API.Controllers
 		[HttpGet("Cat/{selectedCurrency}")]
         public async Task<IActionResult> GetCategorySum(string selectedCurrency)
 		{
-			if(selectedCurrency == null || selectedCurrency.Length == 0)
-			{
-				return Ok(null);
-			}
-			var categoryAmounts = await _mediator.Send(new GetAllIncomeQuery());
-			var income = categoryAmounts.Select(income => _mapper.Map<IncomeDTO>(income));
-			var i = income.Where(i => i.Currency == selectedCurrency)
-				.GroupBy(i => i.CategoryIncome)
-				.Select(g => new CategorySummary
-				{
-					CategoryName = g.Key,
-					TotalAmount = g.Sum(a => a.Amount)
-				});
+			//if(selectedCurrency == null || selectedCurrency.Length == 0)
+			//{
+			//	return Ok(null);
+			//}
+			////var categoryAmounts = await _mediator.Send(new GetAllIncomeQuery());
+			////var income = categoryAmounts.Select(income => _mapper.Map<IncomeDTO>(income));
+			//var i = income.Where(i => i.Currency == selectedCurrency)
+			//	.GroupBy(i => i.CategoryIncome)
+			//	.Select(g => new CategorySummary
+			//	{
+			//		CategoryName = g.Key,
+			//		TotalAmount = g.Sum(a => a.Amount)
+			//	});
 
-			return Ok(i);
+			return Ok();
 		}
 
-		[HttpGet("{id}")]
+
+        [HttpGet("{id}")]
 		public async Task<IActionResult> Get(int id)
 		{
 			var income = await _mediator.Send(new GetIncomeByIdQuery(id));
@@ -84,7 +87,13 @@ namespace Finance.API.Controllers
 		{
 			var income = _mapper.Map<Income>(newIncome);
 
-			var Userid = User.FindFirst("userId").Value;
+            var userId = User.FindFirst("userId")?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User not authenticated.");
+            }
+            income.UserId = new Guid(userId);
 
             var requestIncome = await _mediator.Send(new CreateIncomeCommand(income));
 

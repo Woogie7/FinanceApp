@@ -23,7 +23,8 @@ public class GetAllIncomeHandler : IRequestHandler<GetAllIncomeQuery, IEnumerabl
         {
             _logger.LogInformation("Start get all incomes");
 
-            var incomes = await _incomeRepository.GetAllAsync();
+            var incomes = await _incomeRepository.GetIncomeByUserIdAsync(request.UserId);
+=
 
             _logger.LogInformation($"Successfully retrieved {incomes.Count()} incomes");
 
