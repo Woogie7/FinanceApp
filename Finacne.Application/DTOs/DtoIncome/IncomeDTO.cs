@@ -18,5 +18,6 @@ namespace Finance.Application.DTOs.Income
         public string CategoryIncome { get; set; }
 
         public string Currency { get; set; }
+        public string UserName { get; set; }
     }
 }

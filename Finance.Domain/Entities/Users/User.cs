@@ -15,5 +15,9 @@ namespace Finance.Domain.Entities.Users
 
         public int RoleId { get; set; }
         public Role Role { get; set; }
+
+        public decimal Balance { get; set; }
+        public ICollection<Income> Incomes { get; set; } = new List<Income>();
+        public ICollection<Expense> Expenses { get; set; } = new List<Expense>();
     }
 }

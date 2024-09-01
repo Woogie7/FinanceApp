@@ -31,6 +31,7 @@ namespace Finance.Persistence.Context
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new ExpenseConfiguration());
+            modelBuilder.ApplyConfiguration(new IncomeConfiguration());
         }
 	}
 }

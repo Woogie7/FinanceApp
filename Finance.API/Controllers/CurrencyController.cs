@@ -49,7 +49,7 @@ namespace GameStore.API.Controllers
             return Ok(currency);
 		}
 
-        //[HasPermisiion(PermissionsEnum.Read)]
+        [HasPermisiion(PermissionsEnum.Read)]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateCurrencyDto newCurrency)
         {

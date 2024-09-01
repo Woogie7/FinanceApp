@@ -1,4 +1,5 @@
 ﻿using Finance.Domain.Entities.Base.Finance.Domain.Entities.Base;
+using Finance.Domain.Entities.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace Finance.Domain.Entities
         public CategoryExpense? Category { get; set; }//Категория
 
         public int CurrencyId { get; set; }
-        public Currency? Currency { get; set; } //Валюта
+        public Currency? Currency { get; set; }
+        public Guid UserId { get; set; }
+        public User User { get; set; }
     }
 }

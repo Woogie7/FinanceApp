@@ -254,11 +254,16 @@ namespace Finance.Persistence.Migrations
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryExpenseId");
 
                     b.HasIndex("CurrencyId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Expenses");
                 });
@@ -283,11 +288,16 @@ namespace Finance.Persistence.Migrations
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryIncomeId");
 
                     b.HasIndex("CurrencyId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Incomes");
                 });
@@ -408,6 +418,9 @@ namespace Finance.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("numeric");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
@@ -444,9 +457,17 @@ namespace Finance.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Finance.Domain.Entities.Users.User", "User")
+                        .WithMany("Expenses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
 
                     b.Navigation("Currency");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Finance.Domain.Entities.Income", b =>
@@ -463,9 +484,17 @@ namespace Finance.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Finance.Domain.Entities.Users.User", "User")
+                        .WithMany("Incomes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
 
                     b.Navigation("Currency");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Finance.Domain.Entities.Users.RolePermissions", b =>
@@ -514,6 +543,13 @@ namespace Finance.Persistence.Migrations
             modelBuilder.Entity("Finance.Domain.Entities.Users.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Finance.Domain.Entities.Users.User", b =>
+                {
+                    b.Navigation("Expenses");
+
+                    b.Navigation("Incomes");
                 });
 #pragma warning restore 612, 618
         }

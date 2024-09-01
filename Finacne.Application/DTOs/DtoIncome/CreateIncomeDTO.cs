@@ -18,5 +18,6 @@ namespace Finance.Application.DTOs
         public int CategoryIncomeId { get; set; }
 
         public int CurrencyId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

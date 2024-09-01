@@ -21,30 +21,30 @@ namespace Finance.Persistence.Repositories
             _dbContext = dbContext;
             _cacheService = cacheService;
         }
-        public async Task<Income> AddAsync(Income newIncome)
-        {
-            try
+            public async Task<Income> AddAsync(Income newIncome)
             {
-                var category = await _dbContext.CategoryIncomes.FirstOrDefaultAsync(c => c.Id == newIncome.CategoryIncomeId);
-                var currency = await _dbContext.Currencies.FirstOrDefaultAsync(c => c.Id == newIncome.CurrencyId);
+                try
+                {
+                    var category = await _dbContext.CategoryIncomes.FirstOrDefaultAsync(c => c.Id == newIncome.CategoryIncomeId);
+                    var currency = await _dbContext.Currencies.FirstOrDefaultAsync(c => c.Id == newIncome.CurrencyId);
 
-                newIncome.Currency = currency;
-                newIncome.Category = category;
+                    newIncome.Currency = currency;
+                    newIncome.Category = category;
 
-                await _dbContext.Incomes.AddAsync(newIncome);
+                    await _dbContext.Incomes.AddAsync(newIncome);
 
-                var experetyTime = DateTimeOffset.Now.AddSeconds(60);
-                await _cacheService.SetAsync($"income{newIncome.Id}", newIncome, experetyTime);
+                    var experetyTime = DateTimeOffset.Now.AddSeconds(60);
+                    await _cacheService.SetAsync($"income{newIncome.Id}", newIncome, experetyTime);
 
-                await _dbContext.SaveChangesAsync();
-                return newIncome;
+                    await _dbContext.SaveChangesAsync();
+                    return newIncome;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                    return null;
+                }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-                return null;
-            }
-        }
 
         public async Task UpdateAsync(Income income)
         {

@@ -42,6 +42,7 @@ namespace Finance.Application.Service
         public async Task<string> Login(UserDto userResponse)
         {
             var user = await _userRepository.GetUserByEmail(userResponse.Email);
+            user.Balance = 1;
 
             if (user == null)
             {

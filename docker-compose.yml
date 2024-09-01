@@ -25,6 +25,9 @@ services:
         - ./.containers/finance.database:/var/lib/postgresql/data
     ports:
         - "5432:5432"
+
+
+
   finance.cache:
     image: redis:latest
     container_name: finance.cache

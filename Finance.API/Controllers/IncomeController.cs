@@ -7,6 +7,8 @@ using AutoMapper;
 using Finance.Domain.Model;
 using Finance.Domain.Entities;
 using Finance.Application.DTOs.Income;
+using Finance.Domain.Enum;
+using Finance.Infrastructure.Authentication;
 
 namespace Finance.API.Controllers
 {
@@ -25,7 +27,8 @@ namespace Finance.API.Controllers
 			_logger = logger;
 		}
 
-		[HttpGet]
+        [HasPermisiion(PermissionsEnum.Read)]
+        [HttpGet]
 		public async Task<IActionResult> Get()
 		{
 			var reqestIncome = await _mediator.Send(new GetAllIncomeQuery());
@@ -75,11 +78,13 @@ namespace Finance.API.Controllers
             return Ok(incomeDTO);
         }
 
-       
+        [HasPermisiion(PermissionsEnum.Create)]
         [HttpPost]
 		public async Task<IActionResult> Post([FromBody]CreateIncomeDto newIncome)
 		{
 			var income = _mapper.Map<Income>(newIncome);
+
+			var Userid = User.FindFirst("userId").Value;
 
             var requestIncome = await _mediator.Send(new CreateIncomeCommand(income));
 

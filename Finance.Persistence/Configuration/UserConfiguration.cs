@@ -22,6 +22,14 @@ namespace Finance.Persistence.Configuration
                    .WithMany(u => u.Users)
                    .HasForeignKey(u => u.RoleId)
                    .IsRequired();
+
+            builder.HasMany(u => u.Incomes)
+                   .WithOne(u => u.User)
+                   .HasForeignKey(i => i.UserId);
+
+            builder.HasMany(u => u.Expenses)
+                   .WithOne(u => u.User)
+                   .HasForeignKey(i => i.UserId);
         }
     }
 }

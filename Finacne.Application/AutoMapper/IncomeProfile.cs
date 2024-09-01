@@ -13,12 +13,14 @@ namespace Finance.Application.AutoMapper
                 .ForMember(crtI => crtI.Amount, i => i.MapFrom(x => x.Amount))
                 .ForMember(crtI => crtI.CurrencyId, i => i.MapFrom(x => x.CurrencyId))
                 .ForMember(crtI => crtI.CategoryIncomeId, i => i.MapFrom(x => x.CategoryIncomeId))
+                .ForMember(crtI => crtI.UserId, i => i.MapFrom(x => x.UserId))
                 .ForMember(crtI => crtI.Date, i => i.MapFrom(x => x.Date));
 
             CreateMap<Income, CreateIncomeDto>()
                 .ForMember(crtI => crtI.Amount, i => i.MapFrom(x => x.Amount))
                 .ForMember(crtI => crtI.CurrencyId, i => i.MapFrom(x => x.CurrencyId))
                 .ForMember(crtI => crtI.CategoryIncomeId, i => i.MapFrom(x => x.CategoryIncomeId))
+                .ForMember(crtI => crtI.UserId, i => i.MapFrom(x => x.UserId))
                 .ForMember(crtI => crtI.Date, i => i.MapFrom(x => x.Date));
 
             CreateMap<Income, IncomeDTO>()
@@ -26,6 +28,7 @@ namespace Finance.Application.AutoMapper
                 .ForMember(crtI => crtI.Amount, i => i.MapFrom(x => x.Amount))
                 .ForMember(crtI => crtI.Currency, i => i.MapFrom(x => x.Currency.CurrencyName))
                 .ForMember(crtI => crtI.CategoryIncome, i => i.MapFrom(x => x.Category.CategoryIncomeName))
+                .ForMember(crtI => crtI.UserName, i => i.MapFrom(x => x.User.Email))
                 .ForMember(crtI => crtI.Date, i => i.MapFrom(x => x.Date));
 
             CreateMap<Income, DeteilsIncomeDTO>()
@@ -33,6 +36,7 @@ namespace Finance.Application.AutoMapper
                 .ForMember(crtI => crtI.Amount, i => i.MapFrom(x => x.Amount))
                 .ForMember(crtI => crtI.Currency, i => i.MapFrom(x => x.Currency.Id))
                 .ForMember(crtI => crtI.CategoryIncome, i => i.MapFrom(x => x.Category.Id))
+                .ForMember(crtI => crtI.Email, i => i.MapFrom(x => x.User.Email))
                 .ForMember(crtI => crtI.Date, i => i.MapFrom(x => x.Date));
 
 

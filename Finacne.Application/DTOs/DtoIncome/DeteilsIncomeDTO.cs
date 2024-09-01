@@ -16,5 +16,6 @@ namespace Finance.Application.DTOs.Income
         public int CategoryIncome { get; set; }
 
         public int Currency { get; set; }
+        public string Email { get; set; }
     }
 }
