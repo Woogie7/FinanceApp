@@ -15,5 +15,7 @@ namespace Finance.Application.Interface.Repositories
         Task<User> GetUserByEmail(string email);
 
         Task<HashSet<string>> GetUserPermissionsAsync(Guid userId);
+
+        Task AddBalanceAsync(Guid userId, decimal amount);
     }
 }

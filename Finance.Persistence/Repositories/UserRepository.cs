@@ -36,6 +36,13 @@ public class UserRepository : IUserRepository
         await _dbContext.SaveChangesAsync();
     }
 
+    public async Task AddBalanceAsync(Guid userId, decimal amount)
+    {
+        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+        user.Balance = amount;
+    }
+
     public async Task<User> GetUserByEmail(string email)
     {
 

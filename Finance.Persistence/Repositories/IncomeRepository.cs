@@ -39,7 +39,6 @@ namespace Finance.Persistence.Repositories
                     var experetyTime = DateTimeOffset.Now.AddSeconds(60);
                     await _cacheService.SetAsync($"income{newIncome.Id}", newIncome, experetyTime);
 
-                    await _dbContext.SaveChangesAsync();
                     return newIncome;
                 }
                 catch (Exception ex)

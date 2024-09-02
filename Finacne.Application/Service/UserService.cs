@@ -40,6 +40,7 @@ namespace Finance.Application.Service
                 UserName = newUser.UserName,
                 Email = newUser.Email,
                 PasswordHash = hashedPassword
+                
             };
 
             await _userRepository.Add(user);
@@ -48,7 +49,6 @@ namespace Finance.Application.Service
         public async Task<string> Login(UserDto userResponse)
         {
             var user = await _userRepository.GetUserByEmail(userResponse.Email);
-            user.Balance = 1;
 
             if (user == null)
             {
