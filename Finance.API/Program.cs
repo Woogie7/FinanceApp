@@ -33,7 +33,7 @@ builder.Services.AddStackExchangeRedisCache(redisOptions =>
 	redisOptions.Configuration = builder.Configuration.GetConnectionString("Cache"));
 
 builder.Services.AddScoped<ICacheService, CacheService>();
-builder.Services.AddScoped<IUnitOfWork, FinanceDBContext>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

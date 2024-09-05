@@ -63,6 +63,8 @@ namespace Finance.Persistence.Repositories
             existingIncome.CategoryIncomeId = income.CategoryIncomeId;
             existingIncome.CurrencyId = income.CurrencyId;
             existingIncome.Category = income.Category;
+            existingIncome.User = income.User;
+            existingIncome.UserId = income.UserId;
 
             await _dbContext.SaveChangesAsync();
 
@@ -90,6 +92,7 @@ namespace Finance.Persistence.Repositories
                         .AsNoTracking()
                         .Include(x => x.Category)
                         .Include(x => x.Currency)
+                        .Include(x => x.User)
                         .ToListAsync();
 
                     return incomes;

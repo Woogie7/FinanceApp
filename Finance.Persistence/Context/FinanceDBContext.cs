@@ -13,7 +13,7 @@ namespace Finance.Persistence.Context
 {
     public class FinanceDBContext(
         DbContextOptions<FinanceDBContext> dbContextOptions,
-        IOptions<AuthorizationsOptions> authOptions) : DbContext(dbContextOptions), IUnitOfWork
+        IOptions<AuthorizationsOptions> authOptions) : DbContext(dbContextOptions)
 	{
 		public DbSet<Income> Incomes { get; set; }
 		public DbSet<CategoryIncome> CategoryIncomes { get; set;}
@@ -34,18 +34,6 @@ namespace Finance.Persistence.Context
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new ExpenseConfiguration());
             modelBuilder.ApplyConfiguration(new IncomeConfiguration());
-        }
-
-        Task IUnitOfWork.SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            return this.SaveChangesAsync(cancellationToken);
-        }
-
-        public IDbTransaction BeginTransaction()
-        {
-            var transaction = this.Database.BeginTransaction();
-
-            return transaction.GetDbTransaction();
         }
     }
 }

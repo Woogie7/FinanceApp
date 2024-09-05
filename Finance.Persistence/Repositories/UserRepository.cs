@@ -41,6 +41,7 @@ public class UserRepository : IUserRepository
         var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
         user.Balance = amount;
+        
     }
 
     public async Task<User> GetUserByEmail(string email)
