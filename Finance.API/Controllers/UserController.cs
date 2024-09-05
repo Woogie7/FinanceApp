@@ -2,6 +2,7 @@
 using Finance.Application.Service;
 using Finance.Domain.Entities.Users;
 using Finance.Domain.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Finance.API.Controllers
@@ -10,11 +11,11 @@ namespace Finance.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserService userService;
+        private readonly UserService _userService;
 
         public UserController(UserService userService)
         {
-            this.userService = userService;
+            this._userService = userService;
         }
 
         [HttpPost("Register")]
@@ -22,7 +23,7 @@ namespace Finance.API.Controllers
         {
             try
             {
-                await userService.Register(newIncome);
+                await _userService.Register(newIncome);
                 return Ok();
             }
             catch (UserAlreadyExistsException ex)
@@ -41,7 +42,7 @@ namespace Finance.API.Controllers
         {
             try
             {
-                var token = await userService.Login(user);
+                var token = await _userService.Login(user);
                 this.HttpContext.Response.Cookies.Append("tasty-cookes", token);
                 return Ok(token);
             }
@@ -57,6 +58,17 @@ namespace Finance.API.Controllers
             {
                 return StatusCode(500, new { message = "An unexpected error occurred.", detail = ex.Message });
             }
+        }
+
+        [Authorize]
+        [HttpGet("GetBalance")]
+        public async Task<IActionResult> GetBalance()
+        {
+            var userId = User.FindFirst("userId")?.Value;
+
+            var balance = await _userService.GetBalance(userId);
+
+            return Ok(balance);
         }
     }
 }

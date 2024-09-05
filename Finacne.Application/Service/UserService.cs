@@ -67,5 +67,14 @@ namespace Finance.Application.Service
             return token;
 
         }
+
+        public async Task<decimal> GetBalance(string idUser)
+        {
+            var GuididUser = new Guid(idUser);
+
+            var balance = await _userRepository.GetBalanceAsync(GuididUser);
+
+            return balance;
+        } 
     }
 }
